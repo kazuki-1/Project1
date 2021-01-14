@@ -269,7 +269,7 @@ namespace GameLib
             class Sound {
             private:
                 std::unique_ptr<DirectX::WaveBank>				waveBank                                            = nullptr;
-                std::unique_ptr<DirectX::SoundEffectInstance>	soundInst[GameLib::WAVE_FILE_MAX][WAVE_SOUND_MAX]   = {};//Å‘å8‰¹‚ğ“¯Ä¶‰Â”\
+                std::unique_ptr<DirectX::SoundEffectInstance>	soundInst[GameLib::WAVE_FILE_MAX][WAVE_SOUND_MAX]   = {};//Å‘å8‰¹‚ğ“¯Ä¶‰Â”
                 float											soundVolume[GameLib::WAVE_FILE_MAX]                 = {};
 
             public:

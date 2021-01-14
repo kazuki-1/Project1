@@ -3,6 +3,11 @@
 
 #include "Map.h"
 #include "Object.h"
+enum PUSH_DIR
+{
+    LEFT,
+    RIGHT,
+};
 
 class Player : public Object
 {

@@ -8,6 +8,8 @@ GameLib::Sprite* sprWind;
 std::vector<Fan>fans;
 std::vector<Fan>wind;
 std::vector<Fan>dist;
+#define FAN_UP 37
+extern Player player;
 void wind_init(WindMap *wM);
 void wind_update();
 void LoadCSV(std::string file_path, int arr[MAP_Y][MAP_X]) 
@@ -68,23 +70,21 @@ bool TopChipCheck(Object* obj, Map* map)
         return true;
     return false;
 }
-
 void map_init()
 {
     sprTest = GameLib::sprite_load(L"./Data/Map/back_chip.png");
-    sprWind = GameLib::sprite_load(L"./Data/Map/terrain_chip.png");
+    sprWind = GameLib::sprite_load(L"./Data/Map/back_chip.png");
     WindM.mapSpr.reset(sprWind);
-    WindM.fileN = "./Data/Map/test2.txt";
+    WindM.fileN = "./Data/Map/test4_1.txt";
     WindM.Set();
     WindM.size = { 54, 54 };
     test.mapSpr.reset(sprTest);
-    test.fileN = "./Data/Map/Map1.txt";
+    test.fileN = "./Data/Map/test4.txt";
     test.Set();
     test.size.x = 54;
     test.size.y = 54;
     wind_init(&WindM);
 }
-
 void WindMap::Update()
 {
     //for (int y = 0; y < MAP_Y; ++y)
@@ -98,7 +98,6 @@ void WindMap::Update()
     //    }
     //}
 }
-
 void WindMap::setWind(int chip[MAP_Y][MAP_X], int x, int y)
 {
     if (chip[y][x] == 4)
@@ -122,7 +121,6 @@ void WindMap::setWind(int chip[MAP_Y][MAP_X], int x, int y)
         }
     }
 }
-
 void map_update()
 {
     WindM.Update();
@@ -141,6 +139,10 @@ void map_render()
             0.0f,
             { 1, 0, 0, 1 }
     );
+    for (int alpha = 0; alpha < fans.size(); ++alpha)
+    {
+        circle(VECTOR2(fans[alpha].x * 54.0f, fans[alpha].y * 54.0f), 5.0f, VECTOR2(1.0f, 1.0f), 0.0f, { 0, 1, 1, 1 });
+    }
     //wind.clear();
 }
 void wind_init(WindMap *wM)
@@ -149,10 +151,12 @@ void wind_init(WindMap *wM)
     {
         for (int beta = 0; beta < MAP_X; ++beta)
         {
-            if (wM->chip[alpha][beta] == 4)
+            if (wM->chip[alpha][beta] == 2)
                 fans.push_back({ beta, alpha, Fan::Direction::RIGHT });
-            if (wM->chip[alpha][beta] == 3)
+            if (wM->chip[alpha][beta] == 1)
                 fans.push_back({ beta, alpha, Fan::Direction::LEFT });
+            if (wM->chip[alpha][beta] == FAN_UP)
+                fans.push_back({ beta, alpha, Fan::Direction::UP });
         }
     }
 }
@@ -192,7 +196,8 @@ void wind_update()
             temp = { -1, 0 };
         if (fans[alpha].dir == Fan::Direction::RIGHT)
             temp = { 1, 0 };
-        
+        if (fans[alpha].dir == Fan::Direction::UP)
+            temp = { 0, -1 };
         for (int beta = 0; beta < 5; ++beta)
         {
             VECTOR2 tP{ pos };
@@ -241,6 +246,8 @@ void wind_update()
                 dir = Fan::Direction::UP;
             else if (temp == VECTOR2{ 0, 0 })
                 dir = Fan::Direction::NONE;
+            if (test.getChip(pos * 54))
+                continue;
             wind.push_back({ (int)pos.x, (int)pos.y, dir });
         }
     }
@@ -274,4 +281,14 @@ bool WindMap::WindHit(Player* a)
     }
     return false;
 }
+void FanCollision()
+{
+    for (int alpha = 0; alpha < fans.size(); ++alpha)
+    {
+        VECTOR2 p_tl{ player.pos.x - player.pivot.x, player.pos.y - player.pivot.y };
+        VECTOR2 p_br{ player.pos.x + player.pivot.x, player.pos.y };
+        VECTOR2 f_tl{ fans[alpha].x * 54.0f - 27.0f, fans[alpha].y * 54.0f - 27.0f };
+        VECTOR2 f_br{ fans[alpha].x * 54.0f + 27.0f, fans[alpha].y * 54.0f + 27.0f };
 
+    }
+}

@@ -47,6 +47,7 @@ public:
     void Update();
     bool WindHit(Player* a);
     void setWind(int chip[MAP_Y][MAP_X], int x, int y);
+    void MoveFan();
 };
 
 class Fan
@@ -56,11 +57,13 @@ public:
     int y;
     enum Direction
     {
-        UP, DOWN, LEFT, RIGHT, NONE
+        UP = 1
+        , DOWN, LEFT, RIGHT, NONE
     }dir;
     int id;
     bool On{};
     Fan(int a, int b, Direction c) : x(a), y(b), dir(c) {}
+    void FanCollision();
 };
 void map_init();
 void map_update();
