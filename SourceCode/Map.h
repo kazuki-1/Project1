@@ -30,15 +30,7 @@ public:
     }
     int getChip(VECTOR2 pos);
 };
-bool HoriChipCheck(Object* obj, Map *map);
-bool VertiChipCheck(Object* obj, Map *map);
-bool TopChipCheck(Object* obj, Map* map);
-bool HitCheck(VECTOR2 a_tl, VECTOR2 a_br, VECTOR2 b_tl, VECTOR2 b_br);
 //void test_init();
-enum CHIP_TYPE
-{
-    // TODO : PLACE HOLDER FOR CHIP TYPES
-};
 
 
 class WindMap : public Map
@@ -46,8 +38,6 @@ class WindMap : public Map
 public:
     void Update();
     bool WindHit(Player* a);
-    void setWind(int chip[MAP_Y][MAP_X], int x, int y);
-    void MoveFan();
     void FanCollision();
 
 };
@@ -55,8 +45,11 @@ public:
 class Fan
 {
 public:
+    std::shared_ptr<GameLib::Sprite>spr;
     int x;
     int y;
+    VECTOR2 pos{ x * 54.0f, y * 54.0f };
+    
     enum Direction
     {
         UP = 1
@@ -65,7 +58,16 @@ public:
     int id;
     bool On{};
     Fan(int a, int b, Direction c) : x(a), y(b), dir(c) {}
+    void Draw()
+    {
+        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, x / 8, y / 8, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
+    }
 };
 void map_init();
 void map_update();
 void map_render();
+bool HoriChipCheck(Object* obj, Map* map);
+bool VertiChipCheck(Object* obj, Map* map);
+bool TopChipCheck(Object* obj, Map* map);
+bool HitCheck(VECTOR2 a_tl, VECTOR2 a_br, VECTOR2 b_tl, VECTOR2 b_br);
+bool HoriFanCheck(Player* p, Fan* f);

@@ -38,7 +38,7 @@ void Player::Update()
 
     if (TRG(0) & PAD_L1 && onGround)
     {
-        speed.y = -15.0f;
+        speed.y = -25.0f;
         onGround = false;
     }
 
@@ -114,3 +114,31 @@ void Player::Wind()
     }
 }
 
+void Player::PushFan(Fan* fan)
+{
+    ++timer;
+    if (timer > 30)
+    {
+        speed.x *= 0.3f;
+        fan->pos.x += speed.x;
+    }
+    else
+    {
+        speed = {0, 0};
+    }
+    //switch (state)
+    //{
+    //case 1:
+    //    speed = { 0, 0 };
+    //    ++timer;
+    //    if (timer > 30)
+    //        ++state;
+    //    break;
+    //case 2:
+    //    speed.x *= 0.3f;
+    //    fan->pos.x += speed.x;
+    //    break;
+
+    //}
+
+}
