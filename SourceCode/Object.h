@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OBJECT_H
+#define OBJECT_H
 #include "../GameLib/game_lib.h"
 
 class Object
@@ -26,3 +27,5 @@ public:
     }
     virtual void Update() {}
 };
+
+#endif

@@ -141,7 +141,7 @@ void map_render()
             0.0f,
             { 1, 0, 0, 1 }
     );
-        
+    //wind.clear();
 }
 void wind_init(WindMap *wM)
 {
@@ -168,12 +168,19 @@ void wind_update()
         int distance{};
         for (int beta = 0; beta < fans.size(); ++beta)
         {
+            if (alpha == beta)
+                continue;
             if (fans[alpha].y == fans[beta].y)
             {
                 distance = abs(fans[alpha].x - fans[beta].x);
                 int center = fans[alpha].x + distance / 2;
-                if (center && center < 10)
+                if (center && distance < 10)
+                {
                     dist.push_back({ center, fans[alpha].y, Fan::Direction::UP });
+                    ++alpha;
+                    ++beta;
+                    break;
+                }
             }
         }
     }
@@ -185,15 +192,43 @@ void wind_update()
             temp = { -1, 0 };
         if (fans[alpha].dir == Fan::Direction::RIGHT)
             temp = { 1, 0 };
+        
         for (int beta = 0; beta < 5; ++beta)
         {
+            VECTOR2 tP{ pos };
+            if (tP + temp == pos)
+                break;
             pos += temp;
             for (int gamma = 0; gamma < dist.size(); ++gamma)
             {
                 if (pos == VECTOR2{ (float)dist[gamma].x, (float)dist[gamma].y })
                 {
-                    if (dist[gamma].dir == Fan::Direction::UP)
+                    int a{ test.getChip({ pos.x * 54, pos.y * 54 + 55 }) };
+                    int b{ WindM.getChip({pos.x * 54, pos.y * 54 + 55}) };
+                    bool t{};
+                    for (int alpha = 0; alpha < dist.size(); ++alpha)
+                    {
+                        if (pos + VECTOR2{0, 1} == VECTOR2{ (float)dist[alpha].x, (float)dist[alpha].y })
+                            t = true;
+                    }
+                    for (int alpha = 0; alpha < dist.size(); ++alpha)
+                    {
+                        if (pos + VECTOR2{ 0, -1 } == VECTOR2{ (float)dist[alpha].x, (float)dist[alpha].y })
+                        {
+                            temp = { 0, 0 };
+                            t = true;
+                        }
+                    }
+                    /*if (t)
+                        break;*/
+                    if (!a && !b && !t)
+                    {
+                        temp = { 0, 0 };
+                    }
+
+                    else if (dist[gamma].dir == Fan::Direction::UP)
                         temp = { 0, -1 };
+                    break;
                 }
             }
 
@@ -203,8 +238,40 @@ void wind_update()
             else if (temp == VECTOR2{ 1, 0 })
                 dir = Fan::Direction::RIGHT;
             else if (temp == VECTOR2{ 0, -1 })
-                dir == Fan::Direction::UP;
+                dir = Fan::Direction::UP;
+            else if (temp == VECTOR2{ 0, 0 })
+                dir = Fan::Direction::NONE;
             wind.push_back({ (int)pos.x, (int)pos.y, dir });
         }
     }
 }
+bool HitCheck(VECTOR2 a_tl, VECTOR2 a_br, VECTOR2 b_tl, VECTOR2 b_br)
+{
+    if (a_tl.x > b_br.x)
+        return false;
+    if (a_tl.y < b_br.y)
+        return false;
+    if (a_br.x > b_tl.x)
+        return false;
+    if (a_br.y < b_tl.y)
+        return false;
+    return true;
+}
+
+bool WindMap::WindHit(Player* a)
+{
+    for (int y = 0; y < MAP_Y; ++y)
+    {
+        for (int x = 0; x < MAP_X; ++x)
+        {
+            VECTOR2 p_tl = a->pos - a->pivot;
+            VECTOR2 p_br = a->pos + VECTOR2(a->pivot.x, 0);
+            VECTOR2 c_tl = { x * 54 - 27.0f, y * 54 - 27.0f };
+            VECTOR2 c_br = { x * 54 + 27.0f, y * 54 - 27.0f };
+            if (HitCheck(p_tl, p_br, c_tl, c_br))
+                return true;
+        }
+    }
+    return false;
+}
+

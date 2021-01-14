@@ -22,8 +22,8 @@ void test_update()
         player_init();
         ++t_state;
     case 2:
-        player_update();
         map_update();
+        player_update();
         break;
     }
 }
