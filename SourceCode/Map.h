@@ -48,6 +48,8 @@ public:
     bool WindHit(Player* a);
     void setWind(int chip[MAP_Y][MAP_X], int x, int y);
     void MoveFan();
+    void FanCollision();
+
 };
 
 class Fan
@@ -63,7 +65,6 @@ public:
     int id;
     bool On{};
     Fan(int a, int b, Direction c) : x(a), y(b), dir(c) {}
-    void FanCollision();
 };
 void map_init();
 void map_update();

@@ -281,7 +281,7 @@ bool WindMap::WindHit(Player* a)
     }
     return false;
 }
-void FanCollision()
+void WindMap::FanCollision()
 {
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
