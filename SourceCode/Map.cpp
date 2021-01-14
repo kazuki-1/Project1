@@ -54,19 +54,26 @@ bool HoriChipCheck(Object* obj, Map *map)
 {
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y }) != 0)
         return true;
+    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 1 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 1}) != 0)
+        return true;
+    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0)
+        return true;
     return false;
 }
 bool VertiChipCheck(Object* obj, Map *map)
 {
     if (map->getChip({ obj->pos.x - obj->pivot.x - 1, obj->pos.y + 1 + 54 / 2 }) != 0 || map->getChip({ obj->pos.x + obj->pivot.x + 1, obj->pos.y + 1 + 54 / 2 }) != 0)
-    {
         return true;
-    }
+    
     return false;
 }
 bool TopChipCheck(Object* obj, Map* map)
 {
-    if (map->getChip({ obj->pos.x, obj->pos.y - 1 - obj->pivot.y }))
+    if (map->getChip({ obj->pos.x, obj->pos.y - obj->pivot.y + 1 }))
+        return true;
+    if (map->getChip({ obj->pos.x + obj->pivot.x, obj->pos.y - obj->pivot.y + 1 }))
+        return true;
+    if (map->getChip({ obj->pos.x - obj->pivot.x, obj->pos.y - obj->pivot.y + 1 }))
         return true;
     return false;
 }
@@ -75,11 +82,12 @@ void map_init()
     sprTest = GameLib::sprite_load(L"./Data/Map/back_chip.png");
     sprWind = GameLib::sprite_load(L"./Data/Map/back_chip.png");
     WindM.mapSpr.reset(sprWind);
-    WindM.fileN = "./Data/Map/test4_1.txt";
+    WindM.fileN = "./Data/Map/Map4Fan.txt";
     WindM.Set();
     WindM.size = { 54, 54 };
+
     test.mapSpr.reset(sprTest);
-    test.fileN = "./Data/Map/test4.txt";
+    test.fileN = "./Data/Map/Map4Col.txt";
     test.Set();
     test.size.x = 54;
     test.size.y = 54;

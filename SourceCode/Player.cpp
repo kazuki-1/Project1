@@ -28,9 +28,7 @@ void Player::Update()
         speed.x = -6;
     if (STATE(0) & PAD_RIGHT)
         speed.x = 6;
-   
-    if (TopChipCheck(&player, &test))
-        speed.y = 0;
+
     if (!onGround)
         speed.y += 1;
     else if (onGround)
@@ -44,15 +42,18 @@ void Player::Update()
         onGround = false;
     }
 
+    if (TopChipCheck(&player, &test)) {
+        if (speed.y < 0) {
+            pos.y = std::roundf(pos.y / 54) * 54;
+            speed.y = 0;
+        }
+    }
     pos += speed;
 
     if (HoriChipCheck(&player, &test))
     {
-        //speed.x = {};
         pos.x = std::round(tpos.x / 54) * 54.0f;
     }
-    if (HoriChipCheck(&player, &WindM))
-        pos.x = std::round(tpos.x / 54) * 54.0f;
     
     if (VertiChipCheck(&player, &test)) {
         pos.y = std::ceil(pos.y / 54) * 54 - 28;
