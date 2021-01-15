@@ -96,12 +96,20 @@ void Player::Update()
         if (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0) {
             pushedFan->pos.x += speed.x;
             speed *= 0.3f;
-        }
-        else {
-            pushedFan = nullptr;
-        }
+        } else {
+            float tar_pos_x = 0;
+            if (pushedFan->pos.x < player.pos.x) {
+                tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
+            } else {
+                tar_pos_x = std::ceilf(pushedFan->pos.x / 54) * 54;
+            }
+            pushedFan->pos.x += (tar_pos_x - pushedFan->pos.x) * 0.15f;
 
-        if(speed.x == 0) pushedFan = nullptr;
+            if (abs(pushedFan->pos.x - tar_pos_x) <= 1) {
+                pushedFan->pos.x = tar_pos_x;
+                pushedFan = nullptr;
+            }
+        }
     }
 }
 
