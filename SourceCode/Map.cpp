@@ -241,6 +241,9 @@ void map_init()
     sprTest = GameLib::sprite_load(L"./Data/Map/back_chip.png");
     sprWind = GameLib::sprite_load(L"./Data/Map/back_chip.png");
     sprFan = GameLib::sprite_load(L"./Data/Map/back_chip.png");
+
+    std::shared_ptr<GameLib::Sprite> share_sprFan (sprFan);
+
     WindM.mapSpr.reset(sprWind);
     WindM.fileN = "./Data/Map/test4_1.txt";
     WindM.Set();
@@ -253,7 +256,7 @@ void map_init()
     test.size.y = 54;
     wind_init(&WindM);
     for (int alpha = 0; alpha < fans.size(); ++alpha)
-        fans[alpha].spr.reset(sprFan);
+        fans[alpha].spr = share_sprFan;
 }
 void map_update()
 {
