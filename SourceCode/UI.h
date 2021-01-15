@@ -23,6 +23,8 @@ public:
 	VECTOR2 scale;
 	VECTOR2 size;
 
+	float color_value = 1.0f;
+
 	std::shared_ptr<Sprite> texture;
 
 	void SetClickEvent(onClickEvent _event);
