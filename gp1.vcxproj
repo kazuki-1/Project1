@@ -152,6 +152,7 @@
     <ClCompile Include="GameLib\texture.cpp" />
     <ClCompile Include="GameLib\vector.cpp" />
     <ClCompile Include="GameLib\view_settings.cpp" />
+    <ClCompile Include="SourceCode\Animation.cpp" />
     <ClCompile Include="SourceCode\main.cpp" />
     <ClCompile Include="SourceCode\Map.cpp" />
     <ClCompile Include="SourceCode\Player.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="GameLib\vector.h" />
     <ClInclude Include="GameLib\view_settings.h" />
     <ClInclude Include="SourceCode\all.h" />
+    <ClInclude Include="SourceCode\Animation.h" />
     <ClInclude Include="SourceCode\common.h" />
     <ClInclude Include="SourceCode\Map.h" />
     <ClInclude Include="SourceCode\Object.h" />

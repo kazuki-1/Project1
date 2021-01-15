@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Animation.h"
+
 GameLib::Sprite* playerSpr;
 extern Map test;
 extern WindMap WindM;
@@ -6,10 +8,15 @@ extern std::vector<Fan>fans;
 extern std::vector<Fan>wind;
 extern std::vector<Fan>dist;
 Player player;
+
+Player_Animation animation;
+
 using namespace GameLib::input;
 void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, VECTOR2 ts)
 {
-    playerSpr = GameLib::sprite_load(L"./Data/Images/Player.png");
+    GameLib::setBlendMode(GameLib::Blender::BS_ALPHA);
+
+    playerSpr = GameLib::sprite_load(L"./Data/Images/animation sheet.png");
     Object::Initialize(playerSpr, p, s, tp, ts);
 }
 
@@ -19,15 +26,28 @@ bool FanCollision(VECTOR2 player_pos, VECTOR2 fan_pos)
     return temp == fan_pos;
 }
 
-
+#define XSIZE 54
+#define YSIZE 108
 void Player::Update()
 {
     speed.x = {};
     const VECTOR2 tpos{ pos };
-    if (STATE(0) & PAD_LEFT)
+    if (STATE(0) & PAD_LEFT) {
+        player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
+        player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+
+        player.size.x = -1;
         speed.x = -6;
-    if (STATE(0) & PAD_RIGHT)
+    } else if (STATE(0) & PAD_RIGHT) {
+        player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
+        player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+
+        player.size.x = 1;
         speed.x = 6;
+    } else {
+        player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::IDLE);
+        player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+    }
 
     if (!onGround)
         speed.y += 1;
