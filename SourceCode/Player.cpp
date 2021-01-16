@@ -184,6 +184,12 @@ void Player::Update()
             }
         }
     }
+
+    //Check collsion after update all position parameter
+    //If not, incorrect parameter (position value from previous frame) may cause miscalculation
+    for (auto& fan : fans) {
+        FanColl(this, &fan);
+    }
 }
 
 void player_init()
