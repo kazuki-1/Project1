@@ -28,9 +28,9 @@ void FanColl(Player* p, Fan* f)
         return;
     if (p->pos.y > f->pos.y - 27.0f && (p_tl.x < f_br.x || p_br.x > f_tl.x))
         p->onGround = true;
-    else if (p->pos.x > f->pos.x)
+    if (p->pos.y > f->pos.y && p->pos.x > f->pos.x)
         p->pos.x = f->pos.x + 54.0f;
-    else if (p->pos.x < f->pos.x)
+    else if (p->pos.y > f->pos.y && p->pos.x < f->pos.x)
         p->pos.x = f->pos.x - 54.0f;
     //if (p->pos.y < f->pos.y + 54.0f)
     //    p->pos.y = f->pos.y + 54.0f;
@@ -61,26 +61,29 @@ int sign(int val) {
     return 0;
 }
 
+std::vector<Fan*> slip_fan;
 #define XSIZE 54
 #define YSIZE 108
 void Player::Update()
 {
     speed.x = {};
     const VECTOR2 tpos{ pos };
-    if (STATE(0) & PAD_LEFT) { 
+    if (STATE(0) & PAD_LEFT) {
         player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
         player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
 
         player.size.x = -1;
         speed.x = -6;
-    } else if (STATE(0) & PAD_RIGHT) {
+    }
+    else if (STATE(0) & PAD_RIGHT) {
         player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
         player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
 
 
         player.size.x = 1;
         speed.x = 6;
-    } else {
+    }
+    else {
         player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::IDLE);
         player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
     }
@@ -91,7 +94,7 @@ void Player::Update()
 
     if (!onGround)
         speed.y += 1;
-    else if (onGround)
+    else if (onGround && speed.y > 0)
         speed.y = 0;
 
     Wind();
@@ -103,7 +106,7 @@ void Player::Update()
     }
 
     if (TopChipCheck(&player, &test)) {
-        if (speed.y < 0) {
+        if (speed.y > 0) {
             pos.y = std::roundf(pos.y / 54) * 54;
             speed.y = 0;
         }
@@ -114,8 +117,8 @@ void Player::Update()
     {
         pos.x = std::round(tpos.x / 54) * 54.0f;
     }
-    
-    if (VertiChipCheck(&player, &test)) {
+
+    if (VertiChipCheck(&player, &test) && speed.y > 0) {
         pos.y = std::ceil(pos.y / 54) * 54 - 28;
         onGround = true;
     }
@@ -123,7 +126,8 @@ void Player::Update()
     {
         onGround = false;
     }
-    
+
+    static float tar_pos_x = -1;
     if (pushedFan)
     {
         debug::setString("fan : %d", pushedFan->x);
@@ -148,24 +152,31 @@ void Player::Update()
         }
         if (!fanCheck)
         {
-            if (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0) {
+            debug::setString("fan : %d", pushedFan->x);
+            if (onGround && (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0)) {
                 pushedFan->pos.x += speed.x;
-                speed *= 0.3f;
-            }
-            else {
-                float tar_pos_x = 0;
+                speed.x *= 0.3f;
                 if (pushedFan->pos.x < player.pos.x) {
                     tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
                 }
                 else {
                     tar_pos_x = std::ceilf(pushedFan->pos.x / 54) * 54;
                 }
-                pushedFan->pos.x += (tar_pos_x - pushedFan->pos.x) * 0.15f;
+                slip_fan.clear();
+            }
+            else {
+                slip_fan.push_back(pushedFan);
+                pushedFan = nullptr;
+            }
+        }
+    }
+    if (tar_pos_x != -1) {
+        for (int i = 0; i < slip_fan.size(); i++) {
+            slip_fan[i]->pos.x += (tar_pos_x - slip_fan[i]->pos.x) * 0.15f;
 
-                if (abs(pushedFan->pos.x - tar_pos_x) <= 1) {
-                    pushedFan->pos.x = tar_pos_x;
-                    pushedFan = nullptr;
-                }
+            if (abs(slip_fan[i]->pos.x - tar_pos_x) <= 1) {
+                slip_fan[i]->pos.x = tar_pos_x;
+                slip_fan.erase(slip_fan.begin() + i);
             }
         }
     }
@@ -189,7 +200,7 @@ void player_update()
     player.Update();
 }
 
-bool windCollisionCheck(VECTOR2 player_pos, VECTOR2 wind_cell) { 
+bool windCollisionCheck(VECTOR2 player_pos, VECTOR2 wind_cell) {
     VECTOR2 player_cell = { std::roundf(player_pos.x / 54) * 1.0f,  std::roundf(player_pos.y / 54) * 1.0f };
 
     return player_cell == wind_cell;
@@ -212,7 +223,7 @@ void Player::Wind()
             }
             else if (wind[alpha].dir == Fan::Direction::UP)
             {
-                if(player.speed.y > -5)
+                if (player.speed.y > -5)
                     player.speed.y -= 1.2f;
                 //if(speed.y > 0)
             }
