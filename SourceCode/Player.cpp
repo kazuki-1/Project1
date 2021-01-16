@@ -47,7 +47,7 @@ void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, V
 {
     GameLib::setBlendMode(GameLib::Blender::BS_ALPHA);
 
-    playerSpr = GameLib::sprite_load(L"./Data/Images/animation sheet.png");
+    playerSpr = GameLib::sprite_load(L"./Data/Images/player_.png");
     Object::Initialize(playerSpr, p, s, tp, ts);
 }
 
@@ -64,40 +64,54 @@ int sign(int val) {
 }
 
 std::vector<Fan*> slip_fan;
-#define XSIZE 54
+#define XSIZE 70
 #define YSIZE 108
+
+bool isJump = false;
 void Player::Update()
 {
     speed.x = {};
     const VECTOR2 tpos{ pos };
     if (STATE(0) & PAD_LEFT) {
-        player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
-        player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+        if (!isJump) {
+            player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
+            player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+        }
 
         player.size.x = -1;
         speed.x = -6;
     }
     else if (STATE(0) & PAD_RIGHT) {
-        player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
-        player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
-
+        if (!isJump) {
+            player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);
+            player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+        }
 
         player.size.x = 1;
         speed.x = 6;
     }
     else {
-        player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::IDLE);
-        player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+        if (!isJump) {
+            player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::IDLE);
+            player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+        }
     }
     if (pushedFan)
     {
         FanColl(this, pushedFan);
     }
-
-    if (!onGround)
+    
+    if (!onGround) {
+        if (isJump) {
+            player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::JUMP);
+            player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
+        }
         speed.y += 1;
-    else if (onGround && speed.y > 0)
+    }
+    else if (onGround && speed.y > 0) {
+        isJump = false;
         speed.y = 0;
+    }
 
     
 
@@ -107,6 +121,7 @@ void Player::Update()
     {
         speed.y = -25.0f;
         onGround = false;
+        isJump = true;
     }
 
     if (TopChipCheck(&player, &test)) {
@@ -194,7 +209,7 @@ void Player::Update()
 
 void player_init()
 {
-    player.Initialize(playerSpr, { 120, 100 }, { 1, 1 }, { 0, 0 }, { 54, 108 });
+    player.Initialize(playerSpr, { 120, 100 }, { 1, 1 }, { 0, 0 }, { 70, 108 });
     player.pivot = { 27, 108 };
     player.speed = { 0, 0 };
 }
