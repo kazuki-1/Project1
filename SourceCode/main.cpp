@@ -4,6 +4,7 @@
 int curScene = SCENE_NONE;
 int nextScene = SCENE_TITLE;
 #include "TestMap.h"
+#include "Stage Select.h"
 // WinMain
 int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
@@ -21,20 +22,20 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 			switch (curScene)
 			{
 			case SCENE_TITLE:
-				test_deinit();;
+				test_deinit();
 				break;
 			case SCENE_GAME:
-				//game_deinit();
+				test_deinit();
 				break;
 			}
 			// Initialization following the next scene
 			switch (nextScene)
 			{
 			case SCENE_TITLE:
-				test_init();
+				stSel_Init();
 				break;
 			case SCENE_GAME:
-				//game_init();
+				test_init();
 				break;
 			}
 			// Making curScene equal to nextScene
@@ -54,12 +55,12 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		switch (curScene)
 		{
 		case SCENE_TITLE:
-			test_update();
-			test_render();
+			stSel_Update();
+			stSel_Render();
 			break;
 		//case SCENE_GAME:
-		//	game_update();
-		//	game_render();
+			test_update();
+			test_render();
 		//	break;
 		}
 		// debug display
