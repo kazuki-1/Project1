@@ -12,6 +12,34 @@ Player player;
 Player_Animation animation;
 Fan* pushedFan;
 
+void FanColl(Player* p, Fan* f)
+{
+    VECTOR2 p_tl = p->pos - p->pivot;
+    VECTOR2 p_br = p->pos + VECTOR2(p->pivot.x, 0);
+    VECTOR2 f_tl = { f->pos.x - 26.0f, f->pos.y - 26.0f };
+    VECTOR2 f_br = { f->pos.x + 26.0f, f->pos.y + 26.0f };
+    if (p_tl.x > f_br.x)
+        return;
+    if (p_tl.y > f_br.y)
+        return;
+    if (p_br.x < f_tl.x)
+        return;
+    if (p_br.y < f_tl.y)
+        return;
+    if (p->pos.y > f->pos.y - 27.0f && (p_tl.x < f_br.x || p_br.x > f_tl.x))
+        p->onGround = true;
+    else if (p->pos.x > f->pos.x)
+        p->pos.x = f->pos.x + 54.0f;
+    else if (p->pos.x < f->pos.x)
+        p->pos.x = f->pos.x - 54.0f;
+    //if (p->pos.y < f->pos.y + 54.0f)
+    //    p->pos.y = f->pos.y + 54.0f;
+
+}
+
+
+
+
 using namespace GameLib::input;
 void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, VECTOR2 ts)
 {
@@ -56,6 +84,10 @@ void Player::Update()
         player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::IDLE);
         player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
     }
+    if (pushedFan)
+    {
+        FanColl(this, pushedFan);
+    }
 
     if (!onGround)
         speed.y += 1;
@@ -92,22 +124,48 @@ void Player::Update()
         onGround = false;
     }
     
-    if (pushedFan) {
-        if (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0) {
-            pushedFan->pos.x += speed.x;
-            speed *= 0.3f;
-        } else {
-            float tar_pos_x = 0;
-            if (pushedFan->pos.x < player.pos.x) {
-                tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
-            } else {
-                tar_pos_x = std::ceilf(pushedFan->pos.x / 54) * 54;
-            }
-            pushedFan->pos.x += (tar_pos_x - pushedFan->pos.x) * 0.15f;
+    if (pushedFan)
+    {
+        debug::setString("fan : %d", pushedFan->x);
 
-            if (abs(pushedFan->pos.x - tar_pos_x) <= 1) {
-                pushedFan->pos.x = tar_pos_x;
-                pushedFan = nullptr;
+        bool fanCheck{};
+        float a{ roundf(pos.x / 54) };
+
+        for (int alpha = 0; alpha < fans.size(); ++alpha)
+        {
+            if (pushedFan == &fans[alpha])
+                continue;
+            if (pushedFan->y == fans[alpha].y && (pushedFan->x - 1 == fans[alpha].x || pushedFan->x + 1 == fans[alpha].x))
+                fanCheck = true;
+        }
+        for (int y = 0; y < MAP_Y; ++y)
+        {
+            for (int x = 0; x < MAP_X; ++x)
+            {
+                if (test.getChip(pushedFan->pos + VECTOR2{ 54.0f, 0 }) || test.getChip(pushedFan->pos - VECTOR2{ 54.0f, 0 }))
+                    fanCheck = true;
+            }
+        }
+        if (!fanCheck)
+        {
+            if (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0) {
+                pushedFan->pos.x += speed.x;
+                speed *= 0.3f;
+            }
+            else {
+                float tar_pos_x = 0;
+                if (pushedFan->pos.x < player.pos.x) {
+                    tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
+                }
+                else {
+                    tar_pos_x = std::ceilf(pushedFan->pos.x / 54) * 54;
+                }
+                pushedFan->pos.x += (tar_pos_x - pushedFan->pos.x) * 0.15f;
+
+                if (abs(pushedFan->pos.x - tar_pos_x) <= 1) {
+                    pushedFan->pos.x = tar_pos_x;
+                    pushedFan = nullptr;
+                }
             }
         }
     }

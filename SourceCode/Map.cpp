@@ -163,7 +163,7 @@ void wind_update()
                 int center = fans[alpha].x + distance / 2;
                 if (center && distance < 10)
                 {
-                    dist.push_back({ center, fans[alpha].y, Fan::Direction::UP });
+                    dist.push_back({ center, fans[alpha].y, Fan::Direction::RISE });
                     ++alpha;
                     ++beta;
                     break;
@@ -214,12 +214,25 @@ void wind_update()
                         temp = { 0, 0 };
                     }
 
-                    else if (dist[gamma].dir == Fan::Direction::UP)
+                    else if (dist[gamma].dir == Fan::Direction::UP || dist[gamma].dir == Fan::Direction::RISE)
                         temp = { 0, -1 };
                     break;
                 }
             }
+            for (auto& a : fans)
+            {
+                if (pos == VECTOR2{ (float)a.x, (float)a.y })
+                    temp = { 0, 0 };
 
+            }
+            for (int y = 0; y < MAP_Y; ++y)
+            {
+                for (int x = 0; x < MAP_X; ++x)
+                {
+                    if (test.getChip(pos * 54.0f))
+                        temp = { 0, 0 };
+                }
+            }
             Fan::Direction dir = Fan::Direction::UP;
             if (temp == VECTOR2{ -1, 0 })
                 dir = Fan::Direction::LEFT;
