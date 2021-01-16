@@ -1,6 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 #include "../GameLib/game_lib.h"
+#include "common.h"
 
 class Object
 {

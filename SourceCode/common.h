@@ -24,5 +24,11 @@
 
 // Declaration
 extern int curScene, nextScene;
-
+enum SCENES
+{
+    NONE =  -1, 
+    TITLE, 
+    STAGE_SELECT, 
+    STAGE1
+};
 #endif 

@@ -5,6 +5,7 @@
 #include <fstream>
 #include "Object.h"
 #include "Player.h"
+#include "common.h"
 
 #define MAP_X 38
 #define MAP_Y 18

@@ -1,6 +1,7 @@
 #pragma once
 #include "all.h"
 #include "Object.h"
+#include "common.h"
 
 class Player_Animation {
 public:

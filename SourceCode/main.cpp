@@ -1,8 +1,8 @@
 // Including the needed files
 #include "all.h"
 
-int curScene = SCENE_NONE;
-int nextScene = SCENE_TITLE;
+int curScene = SCENES::NONE;
+int nextScene = SCENES::STAGE_SELECT;
 #include "TestMap.h"
 #include "Stage Select.h"
 // WinMain
@@ -21,20 +21,20 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 			// The process following the current scene
 			switch (curScene)
 			{
-			case SCENE_TITLE:
+			case SCENES::TITLE:
 				test_deinit();
 				break;
-			case SCENE_GAME:
+			case SCENES::STAGE1:
 				test_deinit();
 				break;
 			}
 			// Initialization following the next scene
 			switch (nextScene)
 			{
-			case SCENE_TITLE:
+			case SCENES::STAGE_SELECT:
 				stSel_Init();
 				break;
-			case SCENE_GAME:
+			case SCENES::STAGE1:
 				test_init();
 				break;
 			}
@@ -54,11 +54,11 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		// Rendering and updating according to the current scene
 		switch (curScene)
 		{
-		case SCENE_TITLE:
+		case SCENES::STAGE_SELECT:
 			stSel_Update();
 			stSel_Render();
 			break;
-		//case SCENE_GAME:
+		case SCENES::STAGE1:
 			test_update();
 			test_render();
 		//	break;

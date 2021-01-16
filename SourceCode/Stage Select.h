@@ -1,5 +1,7 @@
 #pragma once
 #include "../GameLib/game_lib.h"
+#include "common.h"
+
 #include <iostream>
 class SEL_ELEM
 {
