@@ -112,7 +112,7 @@ void Player::Update()
     if (TopChipCheck(&player, &test)) {
         if (speed.y > 0) {
             pos.y = std::roundf(pos.y / 54) * 54;
-            speed.y = 0;
+            //speed.y = 0;
         }
     }
     pos += speed;
@@ -126,8 +126,7 @@ void Player::Update()
         pos.y = std::ceil(pos.y / 54) * 54 - 28;
         onGround = true;
     }
-    else if (!VertiChipCheck(&player, &test))
-    {
+    else if (!VertiChipCheck(&player, &test)) {
         onGround = false;
     }
 
@@ -190,6 +189,7 @@ void Player::Update()
     for (auto& fan : fans) {
         FanColl(this, &fan);
     }
+    //Comment this to see what is
 }
 
 void player_init()
