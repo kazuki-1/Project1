@@ -26,8 +26,10 @@ void FanColl(Player* p, Fan* f)
         return;
     if (p_br.y < f_tl.y)
         return;
-    if (p->pos.y > f->pos.y - 27.0f && (p_tl.x < f_br.x || p_br.x > f_tl.x))
+    if (p->pos.y >= f->pos.y - 27.0f && abs(p->pos.x - f->pos.x) <= 26) {
+        p->pos.y = f->pos.y - 27.0f;
         p->onGround = true;
+    }
     if (p->pos.y > f->pos.y && p->pos.x > f->pos.x)
         p->pos.x = f->pos.x + 54.0f;
     else if (p->pos.y > f->pos.y && p->pos.x < f->pos.x)
@@ -96,6 +98,8 @@ void Player::Update()
         speed.y += 1;
     else if (onGround && speed.y > 0)
         speed.y = 0;
+
+    
 
     Wind();
 
