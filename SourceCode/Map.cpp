@@ -63,7 +63,7 @@ bool HoriChipCheck(Object* obj, Map *map)
 }
 bool VertiChipCheck(Object* obj, Map *map)
 {
-    if (map->getChip({ std::roundf((obj->pos.x - obj->pivot.x - 1) / 54) * 54, obj->pos.y + 1 + 54 / 2 }) != 0 || map->getChip({ obj->pos.x + obj->pivot.x + 1, obj->pos.y + 1 + 54 / 2 }) != 0)
+    if (map->getChip({ std::roundf((obj->pos.x - obj->pivot.x + 1) / 54) * 54, obj->pos.y + 1 + 54 / 2 }) != 0 || map->getChip({ obj->pos.x + obj->pivot.x + 1, obj->pos.y + 1 + 54 / 2 }) != 0)
         return true;
     
     return false;
