@@ -63,7 +63,7 @@ bool HoriChipCheck(Object* obj, Map *map)
 }
 bool VertiChipCheck(Object* obj, Map *map)
 {
-    if (map->getChip({ obj->pos.x - obj->pivot.x - 1, obj->pos.y + 1 + 54 / 2 }) != 0 || map->getChip({ obj->pos.x + obj->pivot.x + 1, obj->pos.y + 1 + 54 / 2 }) != 0)
+    if (map->getChip({ obj->pos.x, obj->pos.y + 1 + 54 / 2 }) != 0)
         return true;
     
     return false;
@@ -71,8 +71,6 @@ bool VertiChipCheck(Object* obj, Map *map)
 bool TopChipCheck(Object* obj, Map* map)
 {
     if (map->getChip({ obj->pos.x, obj->pos.y - obj->pivot.y + 1 }))
-        return true;
-    if (map->getChip({ obj->pos.x + obj->pivot.x, obj->pos.y - obj->pivot.y + 1 }))
         return true;
     if (map->getChip({ obj->pos.x - obj->pivot.x, obj->pos.y - obj->pivot.y + 1 }))
         return true;
