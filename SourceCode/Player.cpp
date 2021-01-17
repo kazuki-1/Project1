@@ -68,9 +68,17 @@ std::vector<Fan*> slip_fan;
 #define YSIZE 108
 
 bool isJump = false;
+using namespace GameLib;
 void Player::Update()
 {
     speed.x = {};
+    if (pushedFan && (input::TRG(0) & PAD_TRG1))
+    {
+        if (pushedFan->dir == Fan::Direction::LEFT)
+            pushedFan->dir = Fan::Direction::RIGHT;
+        else if (pushedFan->dir == Fan::Direction::RIGHT)
+            pushedFan->dir = Fan::Direction::LEFT;
+    }
     const VECTOR2 tpos{ pos };
     if (STATE(0) & PAD_LEFT) {
         if (!isJump) {
@@ -125,9 +133,10 @@ void Player::Update()
     }
 
     if (TopChipCheck(&player, &test)) {
-        if (speed.y > 0) {
-            pos.y = std::roundf(pos.y / 54) * 54;
-            //speed.y = 0;
+        if (speed.y < 0) {
+            //pos.y = std::roundf(pos.y / 54) * 54;
+            speed.y = 0;
+            --speed.y;
         }
     }
     pos += speed;

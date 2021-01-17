@@ -70,7 +70,7 @@ bool VertiChipCheck(Object* obj, Map *map)
 }
 bool TopChipCheck(Object* obj, Map* map)
 {
-    if (map->getChip({ obj->pos.x, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x, obj->pos.y - obj->pivot.y + 27.0f }))
         return true;
     if (map->getChip({ obj->pos.x - obj->pivot.x, obj->pos.y - obj->pivot.y + 1 }))
         return true;
@@ -312,20 +312,3 @@ void map_render()
 
     //wind.clear();
 }
-//bool HoriFanCheck(Player* p, Fan* f)
-//{
-//    VECTOR2 p_tl{ p->pos.x -  p->pivot.x,  p->pos.y - p->pivot.y };
-//    VECTOR2 p_br{ p->pos.x +  p->pivot.x,  p->pos.y };
-//    VECTOR2 f_tl{ f->x * 54.0f - 27.0f, f->y * 54.0f - 27.0f };
-//    VECTOR2 f_br{ f->x * 54.0f + 27.0f, f->y * 54.0f + 27.0f };
-//    if (p_tl.x > f_br.x)
-//        return false;
-//    if (p_tl.y > f_br.y)
-//        return false;
-//    if (p_br.x < f_tl.x)
-//        return false;
-//    if (p_br.y < f_tl.y)
-//        return false;
-//    return true;
-//
-//}
