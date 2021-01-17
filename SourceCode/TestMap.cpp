@@ -38,10 +38,10 @@ void test_render()
 {
     GameLib::clear(0, 0, 0);
     //test.Draw();
+
+
     map_render();
     player_render();
-
-
     UI_GP_Manage::GetInstance()->Render();
 }
 

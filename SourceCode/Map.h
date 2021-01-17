@@ -30,6 +30,13 @@ public:
         GameLib::sprite_render(mapSpr.get(), p.x, p.y, 1, 1, tx, ty, 54, 54, 27, 27, 0, 1, 1, 1, 1);
     }
     int getChip(VECTOR2 pos);
+    void Init(GameLib::Sprite* sp, std::string fN, VECTOR2 s)
+    {
+        mapSpr.reset(sp);
+        fileN = fN;
+        size = s;
+        Set();
+    }
 };
 //void test_init();
 

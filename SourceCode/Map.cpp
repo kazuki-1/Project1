@@ -254,17 +254,8 @@ void map_init()
     sprFan = GameLib::sprite_load(L"./Data/Map/back_chip.png");
 
     std::shared_ptr<GameLib::Sprite> share_sprFan (sprFan);
-
-    WindM.mapSpr.reset(sprWind);
-    WindM.fileN = "./Data/Map/Map4Fan.txt";
-    WindM.Set();
-    WindM.size = { 54, 54 };
-
-    test.mapSpr.reset(sprTest);
-    test.fileN = "./Data/Map/Map4Col.txt";
-    test.Set();
-    test.size.x = 54;
-    test.size.y = 54;
+    test.Init(sprTest, "./Data/Map/Map4Col.txt", { 54, 54 });
+    WindM.Init(sprWind, "./Data/Map/Map4Fan.txt", { 54, 54 });
     wind_init(&WindM);
     for (int alpha = 0; alpha < fans.size(); ++alpha)
         fans[alpha].spr = share_sprFan;
@@ -312,20 +303,3 @@ void map_render()
 
     //wind.clear();
 }
-//bool HoriFanCheck(Player* p, Fan* f)
-//{
-//    VECTOR2 p_tl{ p->pos.x -  p->pivot.x,  p->pos.y - p->pivot.y };
-//    VECTOR2 p_br{ p->pos.x +  p->pivot.x,  p->pos.y };
-//    VECTOR2 f_tl{ f->x * 54.0f - 27.0f, f->y * 54.0f - 27.0f };
-//    VECTOR2 f_br{ f->x * 54.0f + 27.0f, f->y * 54.0f + 27.0f };
-//    if (p_tl.x > f_br.x)
-//        return false;
-//    if (p_tl.y > f_br.y)
-//        return false;
-//    if (p_br.x < f_tl.x)
-//        return false;
-//    if (p_br.y < f_tl.y)
-//        return false;
-//    return true;
-//
-//}
