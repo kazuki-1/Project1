@@ -231,6 +231,8 @@ void player_init()
     player.Initialize(playerSpr, { 120, 100 }, { 1, 1 }, { 0, 0 }, { 70, 108 });
     player.pivot = { 27, 108 };
     player.speed = { 0, 0 };
+
+    music::load(ROBOTWALK, L"./Data/Sound/robot_walk.wav");
 }
 
 void player_render()

@@ -80,6 +80,8 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	//	break;
 	}
 	// GameLib end process
+
+	music::clear();
 	GameLib::uninit();
 	// Return value to 0
 	return 0;

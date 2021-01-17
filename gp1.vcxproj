@@ -186,6 +186,7 @@
     <ClInclude Include="SourceCode\Map.h" />
     <ClInclude Include="SourceCode\Object.h" />
     <ClInclude Include="SourceCode\Player.h" />
+    <ClInclude Include="SourceCode\Sound.h" />
     <ClInclude Include="SourceCode\Stage Select.h" />
     <ClInclude Include="SourceCode\TestMap.h" />
     <ClInclude Include="SourceCode\Title_Scene.h" />

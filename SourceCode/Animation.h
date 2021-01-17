@@ -2,6 +2,7 @@
 #include "all.h"
 #include "Object.h"
 #include "common.h"
+#include "Sound.h"
 
 class Player_Animation {
 public:

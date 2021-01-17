@@ -4,6 +4,12 @@ VECTOR2 Player_Animation::GetAnimation_Offset(STATE state) {
 	if (state != cur_state) {
 		animation_time = 0;
 		cur_state = state;
+	
+		if (state == STATE::WALK) {
+			music::play(ROBOTWALK, true);
+		} else {
+			music::stop(ROBOTWALK);
+		}
 	}
 
 	if (state == STATE::IDLE)
