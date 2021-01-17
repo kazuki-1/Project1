@@ -11,12 +11,19 @@ void Switch_Manage::Render() {
 		for (int x = 0; x < MAP_X; x++) {
 			if(switch_map[y][x] == -1) continue;
 
-			int offset_x = switch_map[y][x] % 12;
-			int offset_y = switch_map[y][x] / 12;
+			int offset_x = switch_map[y][x] % 14;
+			int offset_y = switch_map[y][x] / 14;
 
 			sprite_render(sprTest, x * 54, y * 54, 1, 1, offset_x, offset_y, 54, 54, 27, 27, 0, 1, 1, 1, 1);
 		}
 	}
+}
+
+int Switch_Manage::GetMapIndexByPosition(VECTOR2 position) {
+	int x = position.x / 54;
+	int y = position.y / 54;
+
+	return switch_map[y][x];
 }
 
 std::tuple<int, int> Switch_Manage::CheckCollision(Object* obj) {
@@ -38,47 +45,53 @@ std::tuple<int, int> Switch_Manage::CheckCollision(Object* obj) {
 	return { -1, -1 };
 }
 
-void Switch_Manage::AlternateMode(int x, int y) {
+void FANSwitch_Manage::AlternateMode(int x, int y) {
 	int index = switch_map[y][x];
 
-	if (index == 10 || index == 34) {
-		switch_map[y][x + 1] += 12;
-		switch_map[y][x] += 12;
-	} else if(index == 22 || index == 46) {
-		switch_map[y][x + 1] -= 12;
-		switch_map[y][x] -= 12;
-	} else if (index == 11 || index == 35) {
-		switch_map[y][x - 1] += 12;
-		switch_map[y][x] += 12;
-	} else if (index == 23 || index == 47) {
-		switch_map[y][x + 1] -= 12;
-		switch_map[y][x] -= 12;
+	if (index == 10 || index == 52) {
+		switch_map[y][x + 1] += 2;
+		switch_map[y][x] += 2;
+	} else if (index == 12 || index == 54) {
+		switch_map[y][x + 1] -= 2;
+		switch_map[y][x] -= 2;
+	}
+
+	else if (index == 11 || index == 53) {
+		switch_map[y][x - 1] += 2;
+		switch_map[y][x] += 2;
+	}
+	else if (index == 13 || index == 55) {
+		switch_map[y][x - 1] -= 2;
+		switch_map[y][x] -= 2;
 	}
 	
 	
-	else if (index == 59 || index == 83) {
-		switch_map[y + 1][x] -= 1;
-		switch_map[y][x] -= 1;
-	} else if (index == 58 || index == 82) {
-		switch_map[y + 1][x] += 1;
-		switch_map[y][x] += 1;
-	} else if (index == 71 || index == 95) {
-		switch_map[y - 1][x] -= 1;
-		switch_map[y][x] -= 1;
-	} else if (index == 70 || index == 94) {
-		switch_map[y - 1][x] += 1;
-		switch_map[y][x] += 1;
-	} 
+	else if (index == 67 || index == 94) {
+		switch_map[y + 1][x] += 2;
+		switch_map[y][x] += 2;
+	} else if (index == 69 || index == 96) {
+		switch_map[y + 1][x] -= 2;
+		switch_map[y][x] -= 2;
+	}
+	
+	
+	else if (index == 81 || index == 108) {
+		switch_map[y - 1][x] += 2;
+		switch_map[y][x] += 2;
+	} else if (index == 83 || index == 110) {
+		switch_map[y - 1][x] -= 2;
+		switch_map[y][x] -= 2;
+	}
 	
 }
 
-bool Switch_Manage::GetSwitchMode(int x, int y) {
+bool FANSwitch_Manage::GetSwitchMode(int x, int y) {
 	int index = switch_map[y][x];
 
-	return index == 10 || index == 11 || index == 46 || index == 47 || index == 59 || index == 71 || index == 82 || index == 94;
+	return index == 10 || index == 11 || index == 52 || index == 53 || index == 67 || index == 81 || index == 94 || index == 108;
 }
 
-void Switch_Manage::TriggerSwitch(int x, int y) {
+void FANSwitch_Manage::TriggerSwitch(int x, int y) {
 	if (GetSwitchMode(x, y)) {
 		for (int _y = 0; _y < MAP_Y; _y++) {
 			for (int _x = 0; _x < MAP_X; _x++) {
@@ -87,6 +100,39 @@ void Switch_Manage::TriggerSwitch(int x, int y) {
 				}
 			}
 		}
+		AlternateMode(x, y);
+	}
+}
+
+void ShutterSwitch_Manage::AlternateMode(int x, int y) {
+	int index = switch_map[y][x];
+
+	if (index == 24 || index == 38) {
+		switch_map[y][x + 1] += 2;
+		switch_map[y][x] += 2;
+	} else if (index == 25 || index == 39) {
+		switch_map[y][x - 1] += 2;
+		switch_map[y][x] += 2;
+	}
+
+	else if (index == 66 || index == 95) {
+		switch_map[y + 1][x] += 2;
+		switch_map[y][x] += 2;
+	} else if (index == 80 || index == 109) {
+		switch_map[y - 1][x] += 2;
+		switch_map[y][x] += 2;
+	}
+
+}
+
+bool ShutterSwitch_Manage::GetSwitchMode(int x, int y) {
+	int index = switch_map[y][x];
+
+	return index == 24 || index == 38 || index == 25 || index == 39 || index == 66 || index == 95 || index == 80 || index == 109;
+}
+
+void ShutterSwitch_Manage::TriggerSwitch(int x, int y) {
+	if (GetSwitchMode(x, y)) {
 		AlternateMode(x, y);
 	}
 }
