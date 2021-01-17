@@ -141,6 +141,8 @@ void wind_init(WindMap *wM)
                 fans.push_back({ beta, alpha, Fan::Direction::UP });
         }
     }
+    for (auto& a : fans)
+        a.On = true;
 }
 void wind_update()
 {
@@ -150,27 +152,32 @@ void wind_update()
     dist.clear();
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
-        int distance{};
-        for (int beta = 0; beta < fans.size(); ++beta)
-        {
-            if (alpha == beta)
-                continue;
-            if (fans[alpha].y == fans[beta].y)
+        if (!fans[alpha].On)
+            continue;
+            int distance{};
+            for (int beta = 0; beta < fans.size(); ++beta)
             {
-                distance = abs(fans[alpha].x - fans[beta].x);
-                int center = fans[alpha].x + distance / 2;
-                if (center && distance < 10)
+                if (alpha == beta)
+                    continue;
+                if (fans[alpha].y == fans[beta].y)
                 {
-                    dist.push_back({ center, fans[alpha].y, Fan::Direction::RISE });
-                    ++alpha;
-                    ++beta;
-                    break;
+                    distance = abs(fans[alpha].x - fans[beta].x);
+                    int center = fans[alpha].x + distance / 2;
+                    if (center && distance < 10)
+                    {
+                        dist.push_back({ center, fans[alpha].y, Fan::Direction::RISE });
+                        ++alpha;
+                        ++beta;
+                        break;
+                    }
                 }
             }
-        }
+        
     }
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
+        if (!fans[alpha].On)
+            continue;
         pos = VECTOR2((float)fans[alpha].x, (float)fans[alpha].y);
         
         if (fans[alpha].dir == Fan::Direction::LEFT)

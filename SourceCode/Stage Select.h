@@ -21,7 +21,7 @@ public:
             tSize.x, tSize.y, 
             pivot.x, pivot.y, 
             0.0f, 
-            alpha, alpha, alpha, alpha);
+            1, 1, 1, alpha);
     }
     SEL_ELEM() {}
     SEL_ELEM(VECTOR2 p, GameLib::Sprite* sp) : pos(p), spr(sp)
