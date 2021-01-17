@@ -73,6 +73,21 @@ void Player::Update()
     debug::setString("%d", onGround);
     speed.x = {};
     const VECTOR2 tpos{ pos };
+    if (pushedFan && (TRG(0) & PAD_TRG1))
+    {
+        if (pushedFan->dir == Fan::Direction::LEFT)
+            pushedFan->dir = Fan::Direction::RIGHT;
+        else if (pushedFan->dir == Fan::Direction::RIGHT)
+            pushedFan->dir = Fan::Direction::LEFT;
+    }
+    if (pushedFan)
+    {
+        for (auto& a : fans)
+        {
+            if (pushedFan->x && a.x && pushedFan->y == a.y + 1)
+                a.dir = pushedFan->dir;
+        }
+    }
     if (STATE(0) & PAD_LEFT) {
         if (!isJump) {
             player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::WALK);

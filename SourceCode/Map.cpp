@@ -256,12 +256,12 @@ void map_init()
     std::shared_ptr<GameLib::Sprite> share_sprFan (sprFan);
 
     WindM.mapSpr.reset(sprWind);
-    WindM.fileN = "./Data/Map/test4_1.txt";
+    WindM.fileN = "./Data/Map/Map4Fan.txt";
     WindM.Set();
     WindM.size = { 54, 54 };
 
     test.mapSpr.reset(sprTest);
-    test.fileN = "./Data/Map/test4.txt";
+    test.fileN = "./Data/Map/Map4Col.txt";
     test.Set();
     test.size.x = 54;
     test.size.y = 54;
