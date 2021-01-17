@@ -70,6 +70,7 @@ std::vector<Fan*> slip_fan;
 bool isJump = false;
 void Player::Update()
 {
+    debug::setString("%d", onGround);
     speed.x = {};
     const VECTOR2 tpos{ pos };
     if (STATE(0) & PAD_LEFT) {
@@ -125,7 +126,7 @@ void Player::Update()
     }
 
     if (TopChipCheck(&player, &test)) {
-        if (speed.y > 0) {
+        if (speed.y < 0) {
             pos.y = std::roundf(pos.y / 54) * 54;
             //speed.y = 0;
         }
@@ -137,11 +138,13 @@ void Player::Update()
         pos.x = std::round(tpos.x / 54) * 54.0f;
     }
 
-    if (VertiChipCheck(&player, &test) && speed.y > 0) {
-        pos.y = std::ceil(pos.y / 54) * 54 - 28;
-        onGround = true;
+    if (VertiChipCheck(&player, &test)) {
+        if (speed.y > 0) {
+            pos.y = std::ceil(pos.y / 54) * 54 - 28;
+            onGround = true;
+        }
     }
-    else if (!VertiChipCheck(&player, &test)) {
+    else {
         onGround = false;
     }
 
