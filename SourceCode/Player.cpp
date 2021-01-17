@@ -136,7 +136,7 @@ void Player::Update()
 
     if (TRG(0) & PAD_L1 && onGround)
     {
-        speed.y = -25.0f;
+        speed.y = -15.0f;
         onGround = false;
         isJump = true;
     }
@@ -268,7 +268,10 @@ void Player::Wind()
             else if (wind[alpha].dir == Fan::Direction::UP)
             {
                 if (player.speed.y > -5)
+                {
                     player.speed.y -= 1.2f;
+                    onGround = true;
+                }
                 //if(speed.y > 0)
             }
         }

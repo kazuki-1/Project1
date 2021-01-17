@@ -29,6 +29,14 @@ enum SCENES
     NONE =  -1, 
     TITLE, 
     STAGE_SELECT, 
-    STAGE1
+    STAGE1, 
+    STAGE2, 
+    STAGE3, 
+    STAGE4, 
+    STAGE5, 
+    STAGE6, 
+    STAGE7, 
+    STAGE8, 
+    END
 };
 #endif 
