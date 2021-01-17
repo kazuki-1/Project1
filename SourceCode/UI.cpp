@@ -10,19 +10,19 @@ void UI_BTN::Update() {
 	if (!isActive) return;
 	using namespace input;
 
-	VECTOR2 cursor_pos = { getCursorPosX() * 1.0f, getCursorPosY() * 1.0f };
-	VECTOR2 dif_pos = cursor_pos - (position + VECTOR2(size.x * scale.x, size.y * scale.y) / 2);
+	VECTOR2 cursor_pos = { (float)getCursorPosX(), (float)getCursorPosY()};
+	VECTOR2 dif_pos = cursor_pos - position;
 
 
 
-	debug::setString("%f", cursor_pos.x);
-	debug::setString("%f", position.x);
+	debug::setString("%f", cursor_pos.y);
+	debug::setString("%f", position.y);
 
-	if (std::abs(dif_pos.x) <= size.x * scale.x && std::abs(dif_pos.y) <= size.y * scale.y) {
+	if (std::abs(dif_pos.x) <= size.x * 0.5f * scale.x && std::abs(dif_pos.y) <= size.y * 0.5f * scale.y) {
 		if (TRG_RELEASE(0) & PAD_START) {
 			if (_onClickEvent) _onClickEvent();
 		} 
-		color_value += (6 - color_value) * 0.1f;
+		color_value += (0.5f - color_value) * 0.1f;
 	} else {
 		color_value += (1 - color_value) * 0.1f;
 	}
@@ -37,7 +37,7 @@ void UI_BTN::Render() {
 								scale.x, scale.y, 
 								0, 0, 
 								size.x, size.y, 
-								0, 0, 0, color_value, color_value, color_value, color_value);
+								size.x / 2, size.y / 2, 0, color_value, color_value, color_value, color_value);
 }
 
 void UI_GP_Manage::Init() {
@@ -46,19 +46,19 @@ void UI_GP_Manage::Init() {
 	std::shared_ptr<Sprite> stage_ui	(sprite_load(L"./Data/Images/STAGE_BTN.png"));
 	std::shared_ptr<Sprite> reset_ui	(sprite_load(L"./Data/Images/RESET_BTN.png"));
 
-	buttons.insert({ "PAUSE_BTN", UI_BTN({ 1700, 25 }, { 0.6f, 0.6f }, { 256, 256 }, gear_ui, [] {
+	buttons.insert({ "PAUSE_BTN", UI_BTN({ 1750, 125 }, { 0.6f, 0.6f }, { 256, 256 }, gear_ui, [] {
 		isPause = !isPause;
 	})});
 
-	buttons.insert({ "TITLE_BTN", UI_BTN({ SCREEN_W / 2 - 300, SCREEN_H / 2 - 300}, { 0.6f, 0.6f }, { 761, 154 }, title_ui, [] {
+	buttons.insert({ "TITLE_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 - 100}, { 0.6f, 0.6f }, { 761, 154 }, title_ui, [] {
 		
 	}) });
 
-	buttons.insert({ "STAGE_BTN", UI_BTN({ SCREEN_W / 2 - 300, SCREEN_H / 2 - 150}, { 0.6f, 0.6f }, { 761, 154 }, stage_ui, [] {
+	buttons.insert({ "STAGE_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2}, { 0.6f, 0.6f }, { 761, 154 }, stage_ui, [] {
 		nextScene = STAGE_SELECT;
 	}) });
 
-	buttons.insert({ "RESET_BTN", UI_BTN({ SCREEN_W / 2 - 300, SCREEN_H / 2}, { 0.6f, 0.6f }, { 761, 154 }, reset_ui, [] {
+	buttons.insert({ "RESET_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 + 100}, { 0.6f, 0.6f }, { 761, 154 }, reset_ui, [] {
 		nextScene = STAGE1;
 	}) });
 
