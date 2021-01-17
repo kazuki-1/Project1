@@ -157,6 +157,7 @@
     <ClCompile Include="SourceCode\Map.cpp" />
     <ClCompile Include="SourceCode\Player.cpp" />
     <ClCompile Include="SourceCode\Stage Select.cpp" />
+    <ClCompile Include="SourceCode\Switch_Manage.cpp" />
     <ClCompile Include="SourceCode\TestMap.cpp" />
     <ClCompile Include="SourceCode\Title_Scene.cpp" />
     <ClCompile Include="SourceCode\UI.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="SourceCode\Object.h" />
     <ClInclude Include="SourceCode\Player.h" />
     <ClInclude Include="SourceCode\Stage Select.h" />
+    <ClInclude Include="SourceCode\Switch_Manage.h" />
     <ClInclude Include="SourceCode\TestMap.h" />
     <ClInclude Include="SourceCode\Title_Scene.h" />
     <ClInclude Include="SourceCode\UI.h" />
