@@ -55,11 +55,11 @@ void UI_GP_Manage::Init() {
 	}) });
 
 	buttons.insert({ "STAGE_BTN", UI_BTN({ SCREEN_W / 2 - 300, SCREEN_H / 2 - 150}, { 0.6f, 0.6f }, { 761, 154 }, stage_ui, [] {
-
+		nextScene = STAGE_SELECT;
 	}) });
 
 	buttons.insert({ "RESET_BTN", UI_BTN({ SCREEN_W / 2 - 300, SCREEN_H / 2}, { 0.6f, 0.6f }, { 761, 154 }, reset_ui, [] {
-
+		nextScene = STAGE1;
 	}) });
 
 	buttons["TITLE_BTN"].isActive = false;

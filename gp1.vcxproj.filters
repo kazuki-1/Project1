@@ -173,8 +173,5 @@
     <ClInclude Include="SourceCode\Stage Select.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Sound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,6 +12,8 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	// (L"[something]") is the name displayed on the toolbar, after that, those 2 numbers are the ratio
 	GameLib::init(L"自分でプロジェクトを作成", SCREEN_W, SCREEN_H, true);
 
+	GameLib::setBlendMode(GameLib::Blender::BS_ALPHA);
+
 	// GameLoop
 	while (GameLib::gameLoop())
 	{

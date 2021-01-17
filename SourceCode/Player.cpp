@@ -45,8 +45,6 @@ void FanColl(Player* p, Fan* f)
 using namespace GameLib::input;
 void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, VECTOR2 ts)
 {
-    GameLib::setBlendMode(GameLib::Blender::BS_ALPHA);
-
     playerSpr = GameLib::sprite_load(L"./Data/Images/player_.png");
     Object::Initialize(playerSpr, p, s, tp, ts);
 }

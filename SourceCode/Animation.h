@@ -2,7 +2,8 @@
 #include "all.h"
 #include "Object.h"
 #include "common.h"
-#include "Sound.h"
+
+#define ROBOTWALK 0
 
 class Player_Animation {
 public:
