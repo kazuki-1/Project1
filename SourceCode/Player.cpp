@@ -122,7 +122,8 @@ void Player::Update()
             player.tPos = animation.GetAnimation_Offset(Player_Animation::STATE::JUMP);
             player.tPos = VECTOR2(player.tPos.x * XSIZE, player.tPos.y * YSIZE);
         }
-        speed.y += 1;
+        if(speed.y < 25)
+            speed.y += 1;
     }
     else if (onGround && speed.y > 0) {
         isJump = false;
@@ -143,7 +144,7 @@ void Player::Update()
     if (TopChipCheck(&player, &test)) {
         if (speed.y < 0) {
             pos.y = std::roundf(pos.y / 54) * 54;
-            //speed.y = 0;
+            speed.y = 0;
         }
     }
     pos += speed;
