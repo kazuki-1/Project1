@@ -16,7 +16,7 @@ class Map
 {
 public:
     Map() {}
-    std::unique_ptr<GameLib::Sprite>mapSpr;
+    std::shared_ptr<GameLib::Sprite>mapSpr;
     std::string fileN;
     int chip[MAP_Y][MAP_X];
     VECTOR2 size;
@@ -30,9 +30,10 @@ public:
         GameLib::sprite_render(mapSpr.get(), p.x, p.y, 1, 1, tx, ty, 54, 54, 27, 27, 0, 1, 1, 1, 1);
     }
     int getChip(VECTOR2 pos);
-    virtual void Init(GameLib::Sprite* sp, std::string fN, VECTOR2 s)
+
+    virtual void Init(std::shared_ptr<GameLib::Sprite> sp, std::string fN, VECTOR2 s)
     {
-        mapSpr.reset(sp);
+        mapSpr = sp;
         fileN = fN;
         size = s;
         Set();
@@ -49,7 +50,7 @@ public:
     void FanCollision();
     bool StartOn;
     bool AlwaysOn;
-    void Init(GameLib::Sprite* sp, std::string fN, VECTOR2 s) override
+    void Init(std::shared_ptr<GameLib::Sprite> sp, std::string fN, VECTOR2 s) override
     {
         Map::Init(sp, fN, s);
         StartOn = false;
@@ -69,7 +70,7 @@ public:
     
     enum Direction
     {
-        DOWN = 134, UP, RIGHT, LEFT, RISE, NONE
+        DOWN = 132, UP = 135, RIGHT = 136, LEFT = 137, RISE, NONE
     }dir;
     int id;
     bool On{};
@@ -78,7 +79,13 @@ public:
     Fan(int a, int b, Direction c) : x(a), y(b), dir(c) {}
     void Draw()
     {
-        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (dir / 14 - 1) * 54, dir / 14 * 54, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
+        int _dir = dir;
+        if(_dir == DOWN) _dir = 133;
+        else if(_dir == UP) _dir = 134;
+        else if (_dir == RIGHT) _dir = 135;
+        else if (_dir == LEFT) _dir = 136;
+
+        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (_dir % 14) * 54, _dir / 14 * 54, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
     }
 };
 void map_init();

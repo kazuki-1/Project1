@@ -1,21 +1,30 @@
 #include "Switch_Manage.h"
 
-extern GameLib::Sprite* sprTest;
+extern GameLib::Sprite* sprMain;
 extern std::vector<Fan>fans;
 
 void Switch_Manage::Init(std::string file_path) {
 	LoadCSV(file_path, switch_map);
+
+
+	for (int y = 0; y < MAP_Y; y++) {
+		for (int x = 0; x < MAP_X; x++) {
+			if (switch_map[y][x] == 0) continue;
+
+			switch_map[y][x]--;
+		}
+	}
 }
 
 void Switch_Manage::Render() {
 	for (int y = 0; y < MAP_Y; y++) {
 		for (int x = 0; x < MAP_X; x++) {
-			if(switch_map[y][x] == -1) continue;
+			if(switch_map[y][x] == 0) continue;
 
 			int offset_x = switch_map[y][x] % 14;
 			int offset_y = switch_map[y][x] / 14;
 
-			sprite_render(sprTest, x * 54, y * 54, 1, 1, offset_x, offset_y, 54, 54, 27, 27, 0, 1, 1, 1, 1);
+			sprite_render(sprMain, x * 54, y * 54, 1, 1, offset_x * 54, offset_y * 54, 54, 54, 27, 27, 0, 1, 1, 1, 1);
 		}
 	}
 }
@@ -46,7 +55,7 @@ std::tuple<int, int> Switch_Manage::CheckCollision(Object* obj) {
 	return { -1, -1 };
 }
 
-void FANSwitch_Manage::AlternateMode(int x, int y) {
+void FanSwitch_Manage::AlternateMode(int x, int y) {
 	int index = switch_map[y][x];
 
 	if (index == 10 || index == 52) {
@@ -86,13 +95,13 @@ void FANSwitch_Manage::AlternateMode(int x, int y) {
 	
 }
 
-bool FANSwitch_Manage::GetSwitchMode(int x, int y) {
+bool FanSwitch_Manage::GetSwitchMode(int x, int y) {
 	int index = switch_map[y][x];
 
 	return index == 10 || index == 11 || index == 52 || index == 53 || index == 67 || index == 81 || index == 94 || index == 108;
 }
 
-void FANSwitch_Manage::TriggerSwitch(int x, int y) {
+void FanSwitch_Manage::TriggerSwitch(int x, int y) {
 	if (GetSwitchMode(x, y)) {
 		for (int _y = 0; _y < MAP_Y; _y++) {
 			for (int _x = 0; _x < MAP_X; _x++) {
@@ -145,8 +154,8 @@ void ShutterSwitch_Manage::TriggerSwitch(int x, int y) {
 }
 
 int ShutterManage::GetMapIndexByPosition(VECTOR2 position) {
-	int p_x = position.x / 54;
-	int p_y = position.y / 54;
+	int p_x = std::roundf(position.x / 54);
+	int p_y = std::roundf(position.y / 54);
 
 	for (auto it : shutter_map) {
 		int s_x = it.position.x / 54;
@@ -156,6 +165,7 @@ int ShutterManage::GetMapIndexByPosition(VECTOR2 position) {
 			return it.index;
 		}
 	}
+	return -1;
 }
 
 void ShutterManage::Init(std::string file_path) {
@@ -165,15 +175,15 @@ void ShutterManage::Init(std::string file_path) {
 
 	for (int y = 0; y < MAP_Y; y++) {
 		for (int x = 0; x < MAP_X; x++) {
-			if (_shutter_map[y][x] == -1) continue;
-			shutter_map.push_back({ {x * 54.0f, y * 54.0f}, _shutter_map[y][x] });
+			if (_shutter_map[y][x] == 0) continue;
+			shutter_map.push_back({ {x * 54.0f, y * 54.0f}, --_shutter_map[y][x]});
 		}
 	}
 }
 
 bool ShutterManage::CheckCollision(Object* obj) {
-	VECTOR2 left_bottom = { obj->pos.x - obj->pivot.x, obj->pos.y };
-	VECTOR2 right_bottom = { obj->pos.x + obj->pivot.x, obj->pos.y };
+	VECTOR2 left_bottom = { obj->pos.x - obj->pivot.x -1, obj->pos.y };
+	VECTOR2 right_bottom = { obj->pos.x + obj->pivot.x + 1, obj->pos.y };
 
 	return GetMapIndexByPosition(left_bottom) != -1 || GetMapIndexByPosition(right_bottom) != -1;
 }
@@ -184,5 +194,14 @@ void ShutterManage::Active(bool isActive) {
 	for (auto& it : shutter_map) {
 		if (tar_y == -1) tar_y = it.position.y - 54;
 		it.position.y += (tar_y - it.position.y) * 0.1f;
+	}
+}
+
+void ShutterManage::Render() {
+	for (auto& it : shutter_map) {
+		int offset_x = it.index  % 14;
+		int offset_y = it.index  / 14;
+
+		sprite_render(sprMain, it.position.x, it.position.y, 1, 1, offset_x * 54, offset_y * 54, 54, 54, 27, 27, 0, 1, 1, 1, 1);
 	}
 }

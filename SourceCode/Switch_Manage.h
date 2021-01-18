@@ -1,7 +1,7 @@
 #pragma once
 #include "all.h"
-#include "Object.h"
 
+#include "Object.h"
 #include "Map.h"
 
 class Switch_Manage {
@@ -12,16 +12,16 @@ public:
 	std::tuple<int,int> CheckCollision(Object* obj);
 	virtual void TriggerSwitch(int x, int y) { }
 	virtual void AlternateMode(int x, int y) { }
-	virtual bool GetSwitchMode(int x, int y) { }
+	virtual bool GetSwitchMode(int x, int y) { return false; }
 protected:
 	int GetMapIndexByPosition(VECTOR2 position);
 	int switch_map[MAP_Y][MAP_X];
 };
 
-class FANSwitch_Manage : public Switch_Manage {
+class FanSwitch_Manage : public Switch_Manage {
 public:
-	static FANSwitch_Manage* GetInstance() {
-		static FANSwitch_Manage instance;
+	static FanSwitch_Manage* GetInstance() {
+		static FanSwitch_Manage instance;
 		return &instance;
 	}
 	
@@ -55,6 +55,7 @@ public:
 		return &instance;
 	}
 	void Init(std::string file_path);
+	void Render();
 
 	bool CheckCollision(Object* obj);
 	void Active(bool isActive);

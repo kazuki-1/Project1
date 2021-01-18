@@ -137,12 +137,9 @@ void Player::Update()
         speed.y = 0;
     }
 
-    /*CheckSwitchCollision(ShutterSwitch_Manage::GetInstance());
-    CheckSwitchCollision(FANSwitch_Manage::GetInstance());*/
-
     Wind();
 
-    if (TRG(0) & PAD_L1 && onGround)
+    if (TRG(0) & PAD_L1)
     {
         speed.y = -15.0f;
         onGround = false;
@@ -157,11 +154,10 @@ void Player::Update()
     }
     pos += speed;
 
-    if (HoriChipCheck(&player, &Collision))
-    {
-        pos.x = std::round(tpos.x / 54) * 54.0f;
-    }
+    CheckSwitchCollision(ShutterSwitch_Manage::GetInstance());
+    CheckSwitchCollision(FanSwitch_Manage::GetInstance());
 
+    
     if (VertiChipCheck(&player, &Collision)) {
         if (speed.y > 0) {
             pos.y = std::ceil(pos.y / 54) * 54 - 28;

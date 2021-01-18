@@ -1,12 +1,13 @@
 #include "Map.h"
+#include "Switch_Manage.h"
 #include <sstream>
 #define CHIP_S 54
 #define SIZE (VECTOR2{54, 54})
 Map Collision;
-Map Texture;
-Map Shutter;
-Map SwitchShutter;
-Map SwitchFan;
+Map SpriteTexture;
+//Map Shutter;
+//Map SwitchShutter;
+//Map SwitchFan;
 WindMap WindM;
 WindMap Fan1;
 WindMap Fan2;
@@ -58,7 +59,7 @@ bool HoriChipCheck(Object* obj, Map *map)
 {
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y }) != 0)
         return true;
-    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 1 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 1}) != 0)
+    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 30 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 54 }) != 0)
         return true;
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0)
         return true;
@@ -165,8 +166,9 @@ void wind_init(WindMap *wM)
             }
         }
     }
-    for (auto& a : fans)
-        a.On = true;
+
+   /* for (auto& a : fans)
+        a.On = true;*/
 }
 void wind_update()
 {
@@ -292,20 +294,30 @@ void map_init()
     dist.clear();
 
     std::shared_ptr<GameLib::Sprite> share_sprFan(sprMain);
-    Collision.Init(sprMain, "./Data/Map/Map4/Map4Col.txt", SIZE);
-    Texture.Init(sprMain, "./Data/Map/Map4/Map4Tex.txt", SIZE);
-    Shutter.Init(sprMain, "./Data/Map/Map4/Map4Shutter.txt", SIZE);
-    SwitchShutter.Init(sprMain, "./Data/Map/Map4/Map4SwitchShutter.txt", SIZE);
-    SwitchFan.Init(sprMain, "./Data/Map/Map4/Map4SwitchFan.txt", SIZE);
-    WindM.Init(sprMain, "./Data/Map//Map4/Map4Fan.txt", SIZE);
+
+
+    /*Shutter.Init(share_sprFan, "./Data/Map/Map4/Map4Shutter.txt", SIZE);
+    SwitchShutter.Init(share_sprFan, "./Data/Map/Map4/Map4SwitchShutter.txt", SIZE);
+    SwitchFan.Init(share_sprFan, "./Data/Map/Map4/Map4SwitchFan.txt", SIZE);*/
+
+    ShutterManage::GetInstance()->Init("./Data/Map/Map4/Map4Shutter.txt");
+    
+    ShutterSwitch_Manage::GetInstance()->Init("./Data/Map/Map4/Map4SwitchShutter.txt");
+    FanSwitch_Manage::GetInstance()->Init("./Data/Map/Map4/Map4SwitchFan.txt");
+
+
+    Collision.Init(share_sprFan, "./Data/Map/Map4/Map4Col.txt", SIZE);
+    SpriteTexture.Init(share_sprFan, "./Data/Map/Map4/Map4Tex.txt", SIZE);
+    WindM.Init(share_sprFan, "./Data/Map//Map4/Map4Fan.txt", SIZE);
     WindM.AlwaysOn = true;
-    Fan1.Init(sprMain, "./Data/Map/Map4/Map4Fan1.txt", SIZE);
+    Fan1.Init(share_sprFan, "./Data/Map/Map4/Map4Fan1.txt", SIZE);
     Fan1.StartOn = true;
-    Fan2.Init(sprMain, "./Data/Map/Map4/Map4Fan2.txt", SIZE);
+    Fan2.Init(share_sprFan, "./Data/Map/Map4/Map4Fan2.txt", SIZE);
     Fan2.StartOn = false;
     wind_init(&WindM);
     wind_init(&Fan1);
     wind_init(&Fan2);
+
     for (int alpha = 0; alpha < fans.size(); ++alpha)
         fans[alpha].spr = share_sprFan;
 }
@@ -330,6 +342,8 @@ void map_update()
         fans[alpha].x = fans[alpha].pos.x / 54;
         fans[alpha].y = fans[alpha].pos.y / 54;
     }
+
+    ShutterManage::GetInstance()->Active(ShutterSwitch_Manage::GetInstance()->isActive);
 }
 void map_render()
 {
@@ -337,10 +351,10 @@ void map_render()
     //WindM.Draw();
     for (auto& a : fans)
         a.Draw();
-    Shutter.Draw();
+    SpriteTexture.Draw();
+    /*Shutter.Draw();
     SwitchShutter.Draw();
-    SwitchFan.Draw();
-    Texture.Draw();
+    SwitchFan.Draw();*/
 
     //for (int alpha = 0; alpha < wind.size(); ++alpha)
     //    circle(
@@ -356,4 +370,9 @@ void map_render()
     //}
 
     //wind.clear();
+
+    ShutterManage::GetInstance()->Render();
+
+    ShutterSwitch_Manage::GetInstance()->Render();
+    FanSwitch_Manage::GetInstance()->Render();
 }
