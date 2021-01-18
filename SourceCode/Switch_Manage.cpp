@@ -136,7 +136,53 @@ bool ShutterSwitch_Manage::GetSwitchMode(int x, int y) {
 }
 
 void ShutterSwitch_Manage::TriggerSwitch(int x, int y) {
+	if (isActive) return;
+	
 	if (GetSwitchMode(x, y)) {
 		AlternateMode(x, y);
+		isActive = true;
+	}
+}
+
+int ShutterManage::GetMapIndexByPosition(VECTOR2 position) {
+	int p_x = position.x / 54;
+	int p_y = position.y / 54;
+
+	for (auto it : shutter_map) {
+		int s_x = it.position.x / 54;
+		int s_y = it.position.y / 54;
+	
+		if (p_x == s_x && p_y == s_y) {
+			return it.index;
+		}
+	}
+}
+
+void ShutterManage::Init(std::string file_path) {
+	int _shutter_map [MAP_Y][MAP_X];
+
+	LoadCSV(file_path, _shutter_map);
+
+	for (int y = 0; y < MAP_Y; y++) {
+		for (int x = 0; x < MAP_X; x++) {
+			if (_shutter_map[y][x] == -1) continue;
+			shutter_map.push_back({ {x * 54.0f, y * 54.0f}, _shutter_map[y][x] });
+		}
+	}
+}
+
+bool ShutterManage::CheckCollision(Object* obj) {
+	VECTOR2 left_bottom = { obj->pos.x - obj->pivot.x, obj->pos.y };
+	VECTOR2 right_bottom = { obj->pos.x + obj->pivot.x, obj->pos.y };
+
+	return GetMapIndexByPosition(left_bottom) != -1 || GetMapIndexByPosition(right_bottom) != -1;
+}
+
+void ShutterManage::Active(bool isActive) {
+	if (!isActive) return;
+	static int tar_y = -1;
+	for (auto& it : shutter_map) {
+		if (tar_y == -1) tar_y = it.position.y - 54;
+		it.position.y += (tar_y - it.position.y) * 0.1f;
 	}
 }

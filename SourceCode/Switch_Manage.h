@@ -41,14 +41,24 @@ public:
 	void AlternateMode(int x, int y);
 	bool GetSwitchMode(int x, int y);
 
+	bool isActive;
 };
 
 class ShutterManage {
 public:
+	struct Shutter {
+		VECTOR2 position;
+		int index;
+	};
 	static ShutterManage* GetInstance() {
 		static ShutterManage instance;
 		return &instance;
 	}
-	void Init();
-	void Active();
+	void Init(std::string file_path);
+
+	bool CheckCollision(Object* obj);
+	void Active(bool isActive);
+private:
+	int GetMapIndexByPosition(VECTOR2 position);
+	std::vector<Shutter> shutter_map;
 };
