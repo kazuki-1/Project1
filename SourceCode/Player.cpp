@@ -181,6 +181,7 @@ void Player::Update()
         bool fanCheck{};
         float a{ roundf(pos.x / 54) };
 
+        bool isignore = false;
         debug::setString("fan : %d", pushedFan->x);
         for (int alpha = 0; alpha < fans.size(); ++alpha)
         {
@@ -189,6 +190,7 @@ void Player::Update()
             if (pushedFan->y == fans[alpha].y && (pushedFan->x - 1 == fans[alpha].x || pushedFan->x + 1 == fans[alpha].x))
             {
                 fanCheck = true;
+                isignore = true;
                 break;
             }
         }
@@ -212,7 +214,7 @@ void Player::Update()
             }
             slip_fan.clear();
         }
-        else {
+        else if(!isignore){
             slip_fan.push_back(pushedFan);
             pushedFan = nullptr;
         }
@@ -227,6 +229,7 @@ void Player::Update()
                 slip_fan.erase(slip_fan.begin() + i);
             }
         }
+
     }
 
     //Check collsion after update all position parameter
