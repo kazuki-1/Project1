@@ -70,7 +70,7 @@ public:
     
     enum Direction
     {
-        DOWN = 132, UP = 135, RIGHT = 136, LEFT = 137, RISE, NONE
+        DOWN = 134, UP = 135, RIGHT = 136, LEFT = 137, RISE, NONE
     }dir;
     int id;
     bool On{};
