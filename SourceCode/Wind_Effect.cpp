@@ -31,24 +31,41 @@ void Wind_Effect::Update() {
 		auto& eff = effs[i];
 		for (auto& it : wind) {
 			if (WindCollisionCheck(eff.position, { it.x * 1.0f, it.y * 1.0f })) {
-				if (it.dir == Fan::Direction::LEFT) {
-					eff.speed.x -= 1.0f;
-					eff.speed.y *= 0.75f;
-				} else if (it.dir == Fan::Direction::RIGHT) {
-					eff.speed.x += 1.0f;
-					eff.speed.y *= 0.75f;
-				}
-				else if (it.dir == Fan::Direction::UP) {
-					eff.speed.y -= 1;
-					eff.speed.x *= 0.75f;
+				if (eff.speed.x == 0) {
+					if (it.dir == Fan::Direction::UP) {
+						eff.speed.y -= 1;
+						eff.speed.x *= 0.75f;
+					}
+				} else {
+					if (it.dir != Fan::Direction::UP) {
+						eff.speed.y *= 0.75;
+						eff.speed.x += sign(eff.speed.x);
+					}
 				}
 			}
 		}
+	}
+
+
+	for (int i = 0; i < effs.size(); i++) {
+		auto& eff = effs[i];
+		for (int j = i + 1; j < effs.size(); j++) {
+			auto& eff_j = effs[j];
+			if ((eff.speed.x > 0 && eff_j.speed.x < 0) ) {
+				if (abs(eff.position.x - eff_j.position.x) <= 54 && abs(eff.position.y - eff_j.position.y) <= 0) {
+					eff.speed.x *= 0.75f;
+					eff_j.speed.x *= 0.75f;
+
+					break;
+				}
+			}
+		}	
 		eff.position += eff.speed * 0.25f;
 		eff.alpha -= 0.01f;
 
 		if (eff.alpha <= 0) effs.erase(effs.begin() + i);
 	}
+
 	delta_time--;
 }
 

@@ -4,6 +4,7 @@
 
 #include "Object.h"
 #include "Map.h"
+
 class Fan;
 enum PUSH_DIR
 {
@@ -33,5 +34,7 @@ void player_init();
 void player_render();
 void player_update();
 
+
+int sign(int val);
 bool WindCollisionCheck(VECTOR2 player_pos, VECTOR2 wind_cell);
 #endif
