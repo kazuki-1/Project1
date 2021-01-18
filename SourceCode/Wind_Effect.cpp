@@ -27,7 +27,8 @@ void Wind_Effect::Update() {
 		delta_time = 10;
 	}
 
-	for (auto& eff : effs) {
+	for (int i = 0; i < effs.size(); i++) {
+		auto& eff = effs[i];
 		for (auto& it : wind) {
 			if (WindCollisionCheck(eff.position, { it.x * 1.0f, it.y * 1.0f })) {
 				if (it.dir == Fan::Direction::LEFT) {
@@ -45,6 +46,8 @@ void Wind_Effect::Update() {
 		}
 		eff.position += eff.speed * 0.25f;
 		eff.alpha -= 0.01f;
+
+		if (eff.alpha <= 0) effs.erase(effs.begin() + i);
 	}
 	delta_time--;
 }
