@@ -51,15 +51,18 @@ void UI_GP_Manage::Init() {
 	})});
 
 	buttons.insert({ "TITLE_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 - 100}, { 0.6f, 0.6f }, { 761, 154 }, title_ui, [] {
-		
+		isPause != isPause;
 	}) });
 
 	buttons.insert({ "STAGE_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2}, { 0.6f, 0.6f }, { 761, 154 }, stage_ui, [] {
 		nextScene = STAGE_SELECT;
+		isPause = false;
 	}) });
 
 	buttons.insert({ "RESET_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 + 100}, { 0.6f, 0.6f }, { 761, 154 }, reset_ui, [] {
+		curScene = STAGE_SELECT;
 		nextScene = STAGE1;
+		isPause = false;
 	}) });
 
 	buttons["TITLE_BTN"].isActive = false;

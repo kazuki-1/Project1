@@ -76,9 +76,9 @@ bool VertiChipCheck(Object* obj, Map *map)
 }
 bool TopChipCheck(Object* obj, Map* map)
 {
-    if (map->getChip({ obj->pos.x, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + 1, obj->pos.y - obj->pivot.y + 1 }))
         return true;
-    if (map->getChip({ obj->pos.x + obj->pivot.x , obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + obj->pivot.x - 1, obj->pos.y - obj->pivot.y + 1 }))
         return true;
     return false;
 }
@@ -321,7 +321,7 @@ void map_init()
     Fan1.Init(share_sprFan, "./Data/Map/Map4/Map4Fan1.txt", SIZE);
     Fan1.StartOn = true;
     Fan2.Init(share_sprFan, "./Data/Map/Map4/Map4Fan2.txt", SIZE);
-    Fan2.StartOn = true;
+    Fan2.StartOn = false;
     wind_init(&WindM);
     wind_init(&Fan1);
     wind_init(&Fan2);

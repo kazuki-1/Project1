@@ -15,6 +15,8 @@ std::vector<Fan*> slip_fan;
 Player_Animation animation;
 Fan* pushedFan;
 
+
+float tar_pos_x = -1;
 void FanColl(Player* p, Fan* f)
 {
     VECTOR2 p_tl = p->pos - p->pivot;
@@ -50,6 +52,9 @@ void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, V
 {
     playerSpr = GameLib::sprite_load(L"./Data/Images/player_.png");
     Object::Initialize(playerSpr, p, s, tp, ts);
+
+    pushedFan = nullptr;
+    tar_pos_x = -1;
 }
 
 bool FanCollision(VECTOR2 player_pos, VECTOR2 fan_pos)
@@ -171,8 +176,6 @@ void Player::Update()
     else {
         onGround = false;
     }
-
-    static float tar_pos_x = -1;
     if (pushedFan)
     {
         bool fanCheck{};
@@ -193,29 +196,27 @@ void Player::Update()
         {
             for (int x = 0; x < MAP_X; ++x)
             {
-                if (Collision.getChip(pushedFan->pos + VECTOR2{ 27, 0 }) || Collision.getChip(pushedFan->pos - VECTOR2{ 27, 0 }))
+                if ((speed.x > 0 && Collision.getChip(pushedFan->pos + VECTOR2{ 27, 0 })) || (speed.x < 0 && Collision.getChip(pushedFan->pos - VECTOR2{ 27, 0 })))
                     fanCheck = true;
             }
         }
-        if (!fanCheck)
-        {
-            debug::setString("fan : %d", pushedFan->x);
-            if (onGround && (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0)) {
-                pushedFan->pos.x += speed.x;
-                speed.x *= 0.3f;
-                if (pushedFan->pos.x < player.pos.x) {
-                    tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
-                }
-                else {
-                    tar_pos_x = std::ceilf(pushedFan->pos.x / 54) * 54;
-                }
-                slip_fan.clear();
+        
+        if (!fanCheck && onGround && (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0)) {
+            pushedFan->pos.x += speed.x;
+            speed.x *= 0.3f;
+            if (pushedFan->pos.x < player.pos.x) {
+                tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
             }
             else {
-                slip_fan.push_back(pushedFan);
-                pushedFan = nullptr;
+                tar_pos_x = std::ceilf(pushedFan->pos.x / 54) * 54;
             }
+            slip_fan.clear();
         }
+        else {
+            slip_fan.push_back(pushedFan);
+            pushedFan = nullptr;
+        }
+        
     }
     if (tar_pos_x != -1) {
         for (int i = 0; i < slip_fan.size(); i++) {

@@ -43,7 +43,7 @@ void test_update()
 
 void test_render()
 {
-    GameLib::clear(1, 0, 0);
+    GameLib::clear(0, 0, 0);
     //test.Draw();
 
 
