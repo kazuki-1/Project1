@@ -175,8 +175,6 @@ void Player::Update()
     static float tar_pos_x = -1;
     if (pushedFan)
     {
-        debug::setString("fan : %d", pushedFan->x);
-
         bool fanCheck{};
         float a{ roundf(pos.x / 54) };
 

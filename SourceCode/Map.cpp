@@ -17,6 +17,7 @@ std::vector<Fan>wind;
 std::vector<Fan>dist;
 #define FAN_UP 37
 extern Player player;
+extern Fan* pushedFan;
 void LoadCSV(std::string file_path, int arr[MAP_Y][MAP_X]) 
 {
     std::ifstream data(file_path);
@@ -325,16 +326,13 @@ void map_update()
 {
     WindM.Update();
     wind_update();
-    for (int alpha = 0; alpha < fans.size(); ++alpha)
-    {
-        for (int beta = 0; beta < fans.size(); ++beta)
-        {
-            if (alpha == beta)
-                continue;
-            if (fans[alpha].x != fans[beta].x)
-                continue;
-            if (fans[alpha].y == fans[beta].y + 1 || fans[alpha].y == fans[beta].y - 1)
-                fans[alpha].pos.x = fans[beta].pos.x;
+   
+    if (pushedFan) {
+        for (auto& it : fans) {
+            if (&it == pushedFan) continue;
+            if (it.dir == pushedFan->dir && it.x == pushedFan->x && (it.y == pushedFan->y + 1 || it.y == pushedFan->y - 1)) {
+                it.pos.x = pushedFan->pos.x;
+            }
         }
     }
     for (int alpha = 0; alpha < fans.size(); ++alpha)
