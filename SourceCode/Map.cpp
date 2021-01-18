@@ -6,6 +6,7 @@
 Map Collision;
 Map SpriteTexture;
 extern Fan* pushedFan;
+extern std::vector<Fan*> slip_fan;
 //Map Shutter;
 //Map SwitchShutter;
 //Map SwitchFan;
@@ -77,7 +78,7 @@ bool TopChipCheck(Object* obj, Map* map)
 {
     if (map->getChip({ obj->pos.x, obj->pos.y - obj->pivot.y + 1 }))
         return true;
-    if (map->getChip({ obj->pos.x + obj->pivot.x, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + obj->pivot.x , obj->pos.y - obj->pivot.y + 1 }))
         return true;
     return false;
 }
@@ -118,8 +119,8 @@ void WindMap::FanCollision()
     Fan* f{ nullptr };
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
-        VECTOR2 p_tl{ player.pos.x - player.pivot.x, player.pos.y - player.pivot.y };
-        VECTOR2 p_br{ player.pos.x + player.pivot.x, player.pos.y };
+        VECTOR2 p_tl{ player.pos.x - player.pivot.x - 5, player.pos.y - player.pivot.y };
+        VECTOR2 p_br{ player.pos.x + player.pivot.x + 5, player.pos.y };
         VECTOR2 f_tl{ fans[alpha].x * 54.0f - 27.0f, fans[alpha].y * 54.0f - 27.0f };
         VECTOR2 f_br{ fans[alpha].x * 54.0f + 27.0f, fans[alpha].y * 54.0f + 27.0f };
         if (HitCheck(p_tl, p_br, f_tl, f_br))
@@ -352,6 +353,17 @@ void map_update()
             {
                 a.pos.x = pushedFan->pos.x;
                 break;
+            }
+        }
+    } else {
+        if (slip_fan.size() == 1) {
+            for (auto& a : fans)
+            {
+                if (a.x == slip_fan[0]->x && a.y == slip_fan[0]->y - 1)
+                {
+                    a.pos.x = slip_fan[0]->pos.x;
+                    break;
+                }
             }
         }
     }

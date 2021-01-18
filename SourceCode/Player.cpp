@@ -10,6 +10,8 @@ extern std::vector<Fan>wind;
 extern std::vector<Fan>dist;
 Player player;
 
+
+std::vector<Fan*> slip_fan;
 Player_Animation animation;
 Fan* pushedFan;
 
@@ -69,8 +71,6 @@ void CheckSwitchCollision(Switch_Manage* switch_manage) {
     if (x != -1 && y != -1) 
         switch_manage->TriggerSwitch(x, y);
 }
-
-std::vector<Fan*> slip_fan;
 #define XSIZE 70
 #define YSIZE 108
 
@@ -178,6 +178,7 @@ void Player::Update()
         bool fanCheck{};
         float a{ roundf(pos.x / 54) };
 
+        debug::setString("fan : %d", pushedFan->x);
         for (int alpha = 0; alpha < fans.size(); ++alpha)
         {
             if (pushedFan == &fans[alpha])
