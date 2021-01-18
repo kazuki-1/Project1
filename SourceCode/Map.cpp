@@ -5,6 +5,7 @@
 #define SIZE (VECTOR2{54, 54})
 Map Collision;
 Map SpriteTexture;
+extern Fan* pushedFan;
 //Map Shutter;
 //Map SwitchShutter;
 //Map SwitchFan;
@@ -17,7 +18,6 @@ std::vector<Fan>wind;
 std::vector<Fan>dist;
 #define FAN_UP 37
 extern Player player;
-extern Fan* pushedFan;
 void LoadCSV(std::string file_path, int arr[MAP_Y][MAP_X]) 
 {
     std::ifstream data(file_path);
@@ -126,6 +126,8 @@ void WindMap::FanCollision()
         {
             //player.PushFan(&fans[alpha]);
             f = &fans[alpha];
+            //break;
+
         }
 
     }
@@ -185,24 +187,28 @@ void wind_update()
                 continue;
         }
         int distance{};
-            for (int beta = 0; beta < fans.size(); ++beta)
+        for (int beta = 0; beta < fans.size(); ++beta)
+        {
+            if (alpha == beta)
+                continue;
+            if (fans[alpha].dir == Fan::Direction::UP || fans[alpha].dir == Fan::Direction::UP)
+                continue;
+            if (fans[alpha].y == fans[beta].y)
             {
-                if (alpha == beta)
+                if (fans[alpha].x - fans[beta].x > 0)
                     continue;
-                if (fans[alpha].y == fans[beta].y)
+                distance = abs(fans[alpha].x - fans[beta].x);
+                
+                int center = fans[alpha].x + distance / 2;
+                if (center && distance < 10)
                 {
-                    distance = abs(fans[alpha].x - fans[beta].x);
-                    int center = fans[alpha].x + distance / 2;
-                    if (center && distance < 10)
-                    {
-                        dist.push_back({ center, fans[alpha].y, Fan::Direction::RISE });
-                        ++alpha;
-                        ++beta;
-                        break;
-                    }
+                    dist.push_back({ center, fans[alpha].y, Fan::Direction::UP });
+                    ++alpha;
+                    ++beta;
+                    break;
                 }
             }
-        
+        }
     }
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
@@ -241,18 +247,18 @@ void wind_update()
                     {
                         if (pos + VECTOR2{ 0, -1 } == VECTOR2{ (float)dist[alpha].x, (float)dist[alpha].y })
                         {
-                            temp = { 0, 0 };
+                            
                             t = true;
                         }
                     }
                     /*if (t)
                         break;*/
-                    if (!a && !b && !t)
-                    {
-                        temp = { 0, 0 };
-                    }
+                    //if (!a && !b && !t)
+                    //{
+                    //    temp = { 0, 0 };
+                    //}
 
-                    else if (dist[gamma].dir == Fan::Direction::UP || dist[gamma].dir == Fan::Direction::RISE)
+                    if (dist[gamma].dir == Fan::Direction::UP || dist[gamma].dir == Fan::Direction::RISE)
                         temp = { 0, -1 };
                     break;
                 }
@@ -314,7 +320,7 @@ void map_init()
     Fan1.Init(share_sprFan, "./Data/Map/Map4/Map4Fan1.txt", SIZE);
     Fan1.StartOn = true;
     Fan2.Init(share_sprFan, "./Data/Map/Map4/Map4Fan2.txt", SIZE);
-    Fan2.StartOn = false;
+    Fan2.StartOn = true;
     wind_init(&WindM);
     wind_init(&Fan1);
     wind_init(&Fan2);
@@ -326,12 +332,26 @@ void map_update()
 {
     WindM.Update();
     wind_update();
-   
-    if (pushedFan) {
-        for (auto& it : fans) {
-            if (&it == pushedFan) continue;
-            if (it.dir == pushedFan->dir && it.x == pushedFan->x && (it.y == pushedFan->y + 1 || it.y == pushedFan->y - 1)) {
-                it.pos.x = pushedFan->pos.x;
+    //for (int alpha = 0; alpha < fans.size(); ++alpha)
+    //{
+    //    for (int beta = 0; beta < fans.size(); ++beta)
+    //    {
+    //        if (alpha == beta)
+    //            continue;
+    //        if (fans[alpha].x != fans[beta].x)
+    //            continue;
+    //        if (fans[alpha].y == fans[beta].y + 1 || fans[alpha].y == fans[beta].y - 1)
+    //            fans[alpha].pos.x = fans[beta].pos.x;
+    //    }
+    //}
+    if (pushedFan)
+    {
+        for (auto& a : fans)
+        {
+            if (a.x == pushedFan->x && a.y == pushedFan->y - 1)
+            {
+                a.pos.x = pushedFan->pos.x;
+                break;
             }
         }
     }
