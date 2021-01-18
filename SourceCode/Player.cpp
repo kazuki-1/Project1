@@ -91,7 +91,7 @@ void Player::Update()
     {
         for (auto& a : fans)
         {
-            if (pushedFan->x && a.x && pushedFan->y == a.y + 1)
+            if (pushedFan->x == a.x && pushedFan->y == a.y + 1)
                 a.dir = pushedFan->dir;
         }
     }
@@ -185,13 +185,16 @@ void Player::Update()
             if (pushedFan == &fans[alpha])
                 continue;
             if (pushedFan->y == fans[alpha].y && (pushedFan->x - 1 == fans[alpha].x || pushedFan->x + 1 == fans[alpha].x))
+            {
                 fanCheck = true;
+                break;
+            }
         }
         for (int y = 0; y < MAP_Y; ++y)
         {
             for (int x = 0; x < MAP_X; ++x)
             {
-                if (Collision.getChip(pushedFan->pos + VECTOR2{ 54.0f, 0 }) || Collision.getChip(pushedFan->pos - VECTOR2{ 54.0f, 0 }))
+                if (Collision.getChip(pushedFan->pos + VECTOR2{ 27, 0 }) || Collision.getChip(pushedFan->pos - VECTOR2{ 27, 0 }))
                     fanCheck = true;
             }
         }
