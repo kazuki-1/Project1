@@ -1,18 +1,21 @@
 #include "Map.h"
 #include <sstream>
 #define CHIP_S 54
-Map test;
+#define SIZE (VECTOR2{54, 54})
+Map Collision;
+Map Texture;
+Map Shutter;
+Map SwitchShutter;
+Map SwitchFan;
 WindMap WindM;
-GameLib::Sprite* sprTest;
-GameLib::Sprite* sprWind;
-GameLib::Sprite* sprFan;
+WindMap Fan1;
+WindMap Fan2;
+GameLib::Sprite* sprMain;
 std::vector<Fan>fans;
 std::vector<Fan>wind;
 std::vector<Fan>dist;
 #define FAN_UP 37
 extern Player player;
-void wind_init(WindMap *wM);
-void wind_update();
 void LoadCSV(std::string file_path, int arr[MAP_Y][MAP_X]) 
 {
     std::ifstream data(file_path);
@@ -41,7 +44,7 @@ void Map::Draw()
         {
             if (chip[y][x] == 0)
                 continue;
-            DrawChip({ x * size.x, y * size.y },  (chip[y][x] - 1)% 8 * size.x, chip[y][x] / 8 * size.y );
+            DrawChip({ x * size.x, y * size.y },  (chip[y][x] - 1)% 14 * size.x, chip[y][x] / 14 * size.y );
         }
     }
 }
@@ -133,14 +136,37 @@ void wind_init(WindMap *wM)
     {
         for (int beta = 0; beta < MAP_X; ++beta)
         {
-            if (wM->chip[alpha][beta] == 2)
-                fans.push_back({ beta, alpha, Fan::Direction::RIGHT });
-            if (wM->chip[alpha][beta] == 1)
-                fans.push_back({ beta, alpha, Fan::Direction::LEFT });
-            if (wM->chip[alpha][beta] == FAN_UP)
-                fans.push_back({ beta, alpha, Fan::Direction::UP });
+            if (wM->StartOn)
+            {
+                if (wM->chip[alpha][beta] == Fan::Direction::RIGHT)
+                    fans.push_back({ beta, alpha, Fan::Direction::RIGHT, true, false});
+                if (wM->chip[alpha][beta] == Fan::Direction::LEFT)
+                    fans.push_back({ beta, alpha, Fan::Direction::LEFT, true, false });
+                if (wM->chip[alpha][beta] == Fan::Direction::UP)
+                    fans.push_back({ beta, alpha, Fan::Direction::UP , true, false});
+            }
+            else if (wM->AlwaysOn)
+            {
+                if (wM->chip[alpha][beta] == Fan::Direction::RIGHT)
+                    fans.push_back({ beta, alpha, Fan::Direction::RIGHT, true, true });
+                if (wM->chip[alpha][beta] == Fan::Direction::LEFT)
+                    fans.push_back({ beta, alpha, Fan::Direction::LEFT, true, true });
+                if (wM->chip[alpha][beta] == Fan::Direction::UP)
+                    fans.push_back({ beta, alpha, Fan::Direction::UP , true, true });
+            }
+            else
+            {
+                if (wM->chip[alpha][beta] == Fan::Direction::RIGHT)
+                    fans.push_back({ beta, alpha, Fan::Direction::RIGHT, false, false });
+                if (wM->chip[alpha][beta] == Fan::Direction::LEFT)
+                    fans.push_back({ beta, alpha, Fan::Direction::LEFT, false, false });
+                if (wM->chip[alpha][beta] == Fan::Direction::UP)
+                    fans.push_back({ beta, alpha, Fan::Direction::UP , false, false });
+            }
         }
     }
+    for (auto& a : fans)
+        a.On = true;
 }
 void wind_update()
 {
@@ -150,27 +176,38 @@ void wind_update()
     dist.clear();
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
-        int distance{};
-        for (int beta = 0; beta < fans.size(); ++beta)
+        if (!fans[alpha].On)
         {
-            if (alpha == beta)
+            if (!fans[alpha].AlwaysOn)
                 continue;
-            if (fans[alpha].y == fans[beta].y)
+        }
+        int distance{};
+            for (int beta = 0; beta < fans.size(); ++beta)
             {
-                distance = abs(fans[alpha].x - fans[beta].x);
-                int center = fans[alpha].x + distance / 2;
-                if (center && distance < 10)
+                if (alpha == beta)
+                    continue;
+                if (fans[alpha].y == fans[beta].y)
                 {
-                    dist.push_back({ center, fans[alpha].y, Fan::Direction::RISE });
-                    ++alpha;
-                    ++beta;
-                    break;
+                    distance = abs(fans[alpha].x - fans[beta].x);
+                    int center = fans[alpha].x + distance / 2;
+                    if (center && distance < 10)
+                    {
+                        dist.push_back({ center, fans[alpha].y, Fan::Direction::RISE });
+                        ++alpha;
+                        ++beta;
+                        break;
+                    }
                 }
             }
-        }
+        
     }
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
+        if (!fans[alpha].On)
+        {
+            if (!fans[alpha].AlwaysOn)
+                continue;
+        }
         pos = VECTOR2((float)fans[alpha].x, (float)fans[alpha].y);
         
         if (fans[alpha].dir == Fan::Direction::LEFT)
@@ -189,7 +226,7 @@ void wind_update()
             {
                 if (pos == VECTOR2{ (float)dist[gamma].x, (float)dist[gamma].y })
                 {
-                    int a{ test.getChip({ pos.x * 54, pos.y * 54 + 55 }) };
+                    int a{ Collision.getChip({ pos.x * 54, pos.y * 54 + 55 }) };
                     int b{ WindM.getChip({pos.x * 54, pos.y * 54 + 55}) };
                     bool t{};
                     for (int alpha = 0; alpha < dist.size(); ++alpha)
@@ -227,7 +264,7 @@ void wind_update()
             {
                 for (int x = 0; x < MAP_X; ++x)
                 {
-                    if (test.getChip(pos * 54.0f))
+                    if (Collision.getChip(pos * 54.0f))
                         temp = { 0, 0 };
                 }
             }
@@ -240,7 +277,7 @@ void wind_update()
                 dir = Fan::Direction::UP;
             else if (temp == VECTOR2{ 0, 0 })
                 dir = Fan::Direction::NONE;
-            if (test.getChip(pos * 54))
+            if (Collision.getChip(pos * 54))
                 continue;
             wind.push_back({ (int)pos.x, (int)pos.y, dir });
         }
@@ -249,14 +286,26 @@ void wind_update()
 }
 void map_init()
 {
-    sprTest = GameLib::sprite_load(L"./Data/Map/back_chip.png");
-    sprWind = GameLib::sprite_load(L"./Data/Map/back_chip.png");
-    sprFan = GameLib::sprite_load(L"./Data/Map/back_chip.png");
+    sprMain = GameLib::sprite_load(L"./Data/Images/OBJ_4.png");
+    fans.clear();
+    wind.clear();
+    dist.clear();
 
-    std::shared_ptr<GameLib::Sprite> share_sprFan (sprFan);
-    test.Init(sprTest, "./Data/Map/Map4Col.txt", { 54, 54 });
-    WindM.Init(sprWind, "./Data/Map/Map4Fan.txt", { 54, 54 });
+    std::shared_ptr<GameLib::Sprite> share_sprFan(sprMain);
+    Collision.Init(sprMain, "./Data/Map/Map4/Map4Col.txt", SIZE);
+    Texture.Init(sprMain, "./Data/Map/Map4/Map4Tex.txt", SIZE);
+    Shutter.Init(sprMain, "./Data/Map/Map4/Map4Shutter.txt", SIZE);
+    SwitchShutter.Init(sprMain, "./Data/Map/Map4/Map4SwitchShutter.txt", SIZE);
+    SwitchFan.Init(sprMain, "./Data/Map/Map4/Map4SwitchFan.txt", SIZE);
+    WindM.Init(sprMain, "./Data/Map//Map4/Map4Fan.txt", SIZE);
+    WindM.AlwaysOn = true;
+    Fan1.Init(sprMain, "./Data/Map/Map4/Map4Fan1.txt", SIZE);
+    Fan1.StartOn = true;
+    Fan2.Init(sprMain, "./Data/Map/Map4/Map4Fan2.txt", SIZE);
+    Fan2.StartOn = false;
     wind_init(&WindM);
+    wind_init(&Fan1);
+    wind_init(&Fan2);
     for (int alpha = 0; alpha < fans.size(); ++alpha)
         fans[alpha].spr = share_sprFan;
 }
@@ -284,22 +333,27 @@ void map_update()
 }
 void map_render()
 {
-    test.Draw();
+    //Collision.Draw();
     //WindM.Draw();
     for (auto& a : fans)
         a.Draw();
-    for (int alpha = 0; alpha < wind.size(); ++alpha)
-        circle(
-            VECTOR2((wind[alpha].x) * 54, (wind[alpha].y) * 54),
-            5.0f,
-            {1.0f, 1.0f},
-            0.0f,
-            { 1, 0, 0, 1 }
-    );
-    for (int alpha = 0; alpha < fans.size(); ++alpha)
-    {
-        circle(VECTOR2(fans[alpha].x * 54.0f, fans[alpha].y * 54.0f), 5.0f, VECTOR2(1.0f, 1.0f), 0.0f, { 0, 1, 1, 1 });
-    }
+    Shutter.Draw();
+    SwitchShutter.Draw();
+    SwitchFan.Draw();
+    Texture.Draw();
+
+    //for (int alpha = 0; alpha < wind.size(); ++alpha)
+    //    circle(
+    //        VECTOR2((wind[alpha].x) * 54, (wind[alpha].y) * 54),
+    //        5.0f,
+    //        {1.0f, 1.0f},
+    //        0.0f,
+    //        { 1, 0, 0, 1 }
+    //);
+    //for (int alpha = 0; alpha < fans.size(); ++alpha)
+    //{
+    //    circle(VECTOR2(fans[alpha].x * 54.0f, fans[alpha].y * 54.0f), 5.0f, VECTOR2(1.0f, 1.0f), 0.0f, { 0, 1, 1, 1 });
+    //}
 
     //wind.clear();
 }
