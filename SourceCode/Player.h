@@ -33,4 +33,5 @@ void player_init();
 void player_render();
 void player_update();
 
+bool WindCollisionCheck(VECTOR2 player_pos, VECTOR2 wind_cell);
 #endif

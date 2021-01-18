@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "UI.h"
+#include "Wind_Effect.h"
 
 extern Player player;
 extern Map Collision;
@@ -21,15 +22,21 @@ void test_update()
         // nothing
     case 1:
         UI_GP_Manage::GetInstance()->Init();
-        
+
         map_init();
         player_init();
+
+
+        Wind_Effect::GetInstance()->Init();
         ++t_state;
     case 2:
         UI_GP_Manage::GetInstance()->Update();
 
         map_update();
         player_update();
+
+
+        Wind_Effect::GetInstance()->Update();
         break;
     }
 }
@@ -42,7 +49,9 @@ void test_render()
 
     map_render();
     player_render();
+
     UI_GP_Manage::GetInstance()->Render();
+    Wind_Effect::GetInstance()->Render();
 }
 
 void test_deinit()

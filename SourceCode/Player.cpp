@@ -139,7 +139,7 @@ void Player::Update()
 
     Wind();
 
-    if (TRG(0) & PAD_L1)
+    if (TRG(0) & PAD_L1 /*&& onGround*/)
     {
         speed.y = -15.0f;
         onGround = false;
@@ -157,6 +157,10 @@ void Player::Update()
     CheckSwitchCollision(ShutterSwitch_Manage::GetInstance());
     CheckSwitchCollision(FanSwitch_Manage::GetInstance());
 
+  /*  if (HoriChipCheck(&player, &Collision) || ShutterManage::GetInstance()->CheckCollision(&player))
+    {
+        pos.x = std::round(tpos.x / 54) * 54.0f;
+    }*/
     
     if (VertiChipCheck(&player, &Collision)) {
         if (speed.y > 0) {
@@ -250,7 +254,7 @@ void player_update()
     player.Update();
 }
 
-bool windCollisionCheck(VECTOR2 player_pos, VECTOR2 wind_cell) {
+bool WindCollisionCheck(VECTOR2 player_pos, VECTOR2 wind_cell) {
     VECTOR2 player_cell = { std::roundf(player_pos.x / 54) * 1.0f,  std::roundf(player_pos.y / 54) * 1.0f };
 
     return player_cell == wind_cell;
@@ -261,7 +265,7 @@ void Player::Wind()
 
     for (int alpha = 0; alpha < wind.size(); ++alpha)
     {
-        if (windCollisionCheck(player.pos, { wind[alpha].x * 1.0f, wind[alpha].y * 1.0f }))
+        if (WindCollisionCheck(player.pos, { wind[alpha].x * 1.0f, wind[alpha].y * 1.0f }))
         {
             if (wind[alpha].dir == Fan::Direction::LEFT)
             {

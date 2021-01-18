@@ -59,7 +59,7 @@ bool HoriChipCheck(Object* obj, Map *map)
 {
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y }) != 0)
         return true;
-    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 30 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 54 }) != 0)
+    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 30 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 30 }) != 0)
         return true;
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0)
         return true;
