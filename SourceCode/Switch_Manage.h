@@ -42,3 +42,13 @@ public:
 	bool GetSwitchMode(int x, int y);
 
 };
+
+class ShutterManage {
+public:
+	static ShutterManage* GetInstance() {
+		static ShutterManage instance;
+		return &instance;
+	}
+	void Init();
+	void Active();
+};

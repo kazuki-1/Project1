@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Animation.h"
+#include "Switch_Manage.h"
 
 GameLib::Sprite* playerSpr;
 extern Map test;
@@ -59,6 +60,14 @@ int sign(int val) {
     if (val < 0) return -1;
     else if (val > 0) return 1;
     return 0;
+}
+
+void CheckSwitchCollision(Switch_Manage* switch_manage) {
+    std::tuple<int, int> switch_pos = switch_manage->CheckCollision(&player);
+    int x = std::get<0>(switch_pos);
+    int y = std::get<1>(switch_pos);
+    if (x != -1 && y != -1) 
+        switch_manage->TriggerSwitch(x, y);
 }
 
 std::vector<Fan*> slip_fan;
@@ -128,7 +137,8 @@ void Player::Update()
         speed.y = 0;
     }
 
-    
+    /*CheckSwitchCollision(ShutterSwitch_Manage::GetInstance());
+    CheckSwitchCollision(FANSwitch_Manage::GetInstance());*/
 
     Wind();
 

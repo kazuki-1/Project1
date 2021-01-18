@@ -1,6 +1,7 @@
 #include "Switch_Manage.h"
 
 extern GameLib::Sprite* sprTest;
+extern std::vector<Fan>fans;
 
 void Switch_Manage::Init(std::string file_path) {
 	LoadCSV(file_path, switch_map);
@@ -101,6 +102,9 @@ void FANSwitch_Manage::TriggerSwitch(int x, int y) {
 			}
 		}
 		AlternateMode(x, y);
+		
+		for (auto& it : fans) 
+			it.On = !it.On;
 	}
 }
 
