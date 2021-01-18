@@ -91,7 +91,7 @@ void Player::Update()
     {
         for (auto& a : fans)
         {
-            if (pushedFan->x && a.x && pushedFan->y == a.y + 1)
+            if (pushedFan->x == a.x && pushedFan->y == a.y + 1)
                 a.dir = pushedFan->dir;
         }
     }
