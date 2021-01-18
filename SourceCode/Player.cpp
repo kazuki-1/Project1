@@ -2,7 +2,7 @@
 #include "Animation.h"
 
 GameLib::Sprite* playerSpr;
-extern Map test;
+extern Map Collision;
 extern WindMap WindM;
 extern std::vector<Fan>fans;
 extern std::vector<Fan>wind;
@@ -139,7 +139,7 @@ void Player::Update()
         isJump = true;
     }
 
-    if (TopChipCheck(&player, &test)) {
+    if (TopChipCheck(&player, &Collision)) {
         if (speed.y < 0) {
             pos.y = std::roundf(pos.y / 54) * 54;
             speed.y = 0;
@@ -147,12 +147,12 @@ void Player::Update()
     }
     pos += speed;
 
-    if (HoriChipCheck(&player, &test))
+    if (HoriChipCheck(&player, &Collision))
     {
         pos.x = std::round(tpos.x / 54) * 54.0f;
     }
 
-    if (VertiChipCheck(&player, &test)) {
+    if (VertiChipCheck(&player, &Collision)) {
         if (speed.y > 0) {
             pos.y = std::ceil(pos.y / 54) * 54 - 28;
             onGround = true;
@@ -181,7 +181,7 @@ void Player::Update()
         {
             for (int x = 0; x < MAP_X; ++x)
             {
-                if (test.getChip(pushedFan->pos + VECTOR2{ 54.0f, 0 }) || test.getChip(pushedFan->pos - VECTOR2{ 54.0f, 0 }))
+                if (Collision.getChip(pushedFan->pos + VECTOR2{ 54.0f, 0 }) || Collision.getChip(pushedFan->pos - VECTOR2{ 54.0f, 0 }))
                     fanCheck = true;
             }
         }

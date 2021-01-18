@@ -30,7 +30,7 @@ public:
         GameLib::sprite_render(mapSpr.get(), p.x, p.y, 1, 1, tx, ty, 54, 54, 27, 27, 0, 1, 1, 1, 1);
     }
     int getChip(VECTOR2 pos);
-    void Init(GameLib::Sprite* sp, std::string fN, VECTOR2 s)
+    virtual void Init(GameLib::Sprite* sp, std::string fN, VECTOR2 s)
     {
         mapSpr.reset(sp);
         fileN = fN;
@@ -47,6 +47,15 @@ public:
     void Update();
     bool WindHit(Player* a);
     void FanCollision();
+    bool StartOn;
+    bool AlwaysOn;
+    void Init(GameLib::Sprite* sp, std::string fN, VECTOR2 s) override
+    {
+        Map::Init(sp, fN, s);
+        StartOn = false;
+        AlwaysOn = false;
+    }
+
 
 };
 
@@ -60,15 +69,16 @@ public:
     
     enum Direction
     {
-        UP = 1
-        , DOWN, LEFT, RIGHT, RISE, NONE
+        DOWN = 134, UP, RIGHT, LEFT, RISE, NONE
     }dir;
     int id;
     bool On{};
+    bool AlwaysOn{};
+    Fan(int a, int b, Direction c, bool on, bool alwayson) : x(a), y(b), dir(c) , On(on), AlwaysOn(alwayson){}
     Fan(int a, int b, Direction c) : x(a), y(b), dir(c) {}
     void Draw()
     {
-        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, x / 8, y / 8, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
+        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (dir / 14 - 1) * 54, dir / 14 * 54, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
     }
 };
 void map_init();
@@ -79,3 +89,5 @@ bool VertiChipCheck(Object* obj, Map* map);
 bool TopChipCheck(Object* obj, Map* map);
 bool HitCheck(VECTOR2 a_tl, VECTOR2 a_br, VECTOR2 b_tl, VECTOR2 b_br);
 bool HoriFanCheck(Player* p, Fan* f);
+void wind_init(WindMap* wM);
+void wind_update();

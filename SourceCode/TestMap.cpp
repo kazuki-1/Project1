@@ -3,7 +3,7 @@
 #include "UI.h"
 
 extern Player player;
-extern Map test;
+extern Map Collision;
 int t_state, t_timer;
 
 void test_init()
