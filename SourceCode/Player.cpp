@@ -227,6 +227,9 @@ void Player::Update()
             if (abs(slip_fan[i]->pos.x - tar_pos_x) <= 1) {
                 slip_fan[i]->pos.x = tar_pos_x;
                 slip_fan.erase(slip_fan.begin() + i);
+
+                if (slip_fan.size() == 0)
+                    tar_pos_x = -1;
             }
         }
     }
@@ -295,8 +298,10 @@ void Player::Wind()
 
 void Player::PushFan(Fan* fan)
 {
-    pushedFan = fan;
-    ++timer;
+    if ((player.size.x > 0 && fan->pos.x > player.pos.x) || (player.size.x < 0 && fan->pos.x < player.pos.x)) {
+        pushedFan = fan;
+        ++timer;
+    }
     //switch (state)
     //{
     //case 1:
