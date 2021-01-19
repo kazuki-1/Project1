@@ -349,7 +349,7 @@ void map_update()
     {
         for (auto& a : fans)
         {
-            if (a.x == pushedFan->x && a.y == pushedFan->y - 1)
+            if (a.x == pushedFan->x && (a.y == pushedFan->y - 1 || a.y == pushedFan->y + 1))
             {
                 a.pos.x = pushedFan->pos.x;
                 break;
