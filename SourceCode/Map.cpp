@@ -328,7 +328,7 @@ void map_init(std::string map_name)
     WindM.AlwaysOn = true;
     Fan1.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Fan1.txt", SIZE);
     Fan1.StartOn = true;
-    Fan2.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "an2.txt", SIZE);
+    Fan2.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Fan2.txt", SIZE);
     Fan2.StartOn = false;
     wind_init(&WindM);
     wind_init(&Fan1);
