@@ -5,6 +5,7 @@
 #define SIZE (VECTOR2{54, 54})
 Map Collision;
 Map SpriteTexture;
+Map BG;
 extern Fan* pushedFan;
 extern std::vector<Fan*> slip_fan;
 //Map Shutter;
@@ -47,7 +48,7 @@ void Map::Draw()
         {
             if (chip[y][x] == 0)
                 continue;
-            DrawChip({ x * size.x, y * size.y },  (chip[y][x] - 1)% 14 * size.x, chip[y][x] / 14 * size.y );
+            DrawChip({ x * size.x, y * size.y },  (chip[y][x] - 1) % 14 * size.x, chip[y][x] / 14 * size.y );
         }
     }
 }
@@ -325,6 +326,7 @@ void map_init(std::string map_name)
 
     Collision.Init(share_sprFan, "./Data/Map/" + map_name + "/Col.txt", SIZE);
     SpriteTexture.Init(share_sprFan, "./Data/Map/" + map_name + "/Tex.txt", SIZE);
+    BG.Init(share_sprFan, "./Data/Map/" + map_name + "/BG.txt", SIZE);
     WindM.Init(share_sprFan, "./Data/Map/" + map_name + "/Fan.txt", SIZE);
     WindM.AlwaysOn = true;
     Fan1.Init(share_sprFan, "./Data/Map/" + map_name + "/Fan1.txt", SIZE);
@@ -391,6 +393,7 @@ void map_render()
     for (auto& a : fans)
         a.Draw();
     SpriteTexture.Draw();
+    BG.Draw();
     /*Shutter.Draw();
     SwitchShutter.Draw();
     SwitchFan.Draw();*/
