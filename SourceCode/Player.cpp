@@ -215,7 +215,9 @@ void Player::Update()
             slip_fan.clear();
         }
         else if(!isignore){
-            slip_fan.push_back(pushedFan);
+            if (tar_pos_x != -1) {
+                slip_fan.push_back(pushedFan);
+            }
             pushedFan = nullptr;
         }
         
@@ -229,6 +231,7 @@ void Player::Update()
                 slip_fan.erase(slip_fan.begin() + i);
             }
         }
+        if (slip_fan.size() == 0) tar_pos_x = -1;
 
     }
 
@@ -271,7 +274,7 @@ void Player::Wind()
 
     for (int alpha = 0; alpha < wind.size(); ++alpha)
     {
-        if (WindCollisionCheck(player.pos, { wind[alpha].x * 1.0f, wind[alpha].y * 1.0f }))
+        if (WindCollisionCheck(player.pos - VECTOR2(0, 54), { wind[alpha].x * 1.0f, wind[alpha].y * 1.0f }))
         {
             if (wind[alpha].dir == Fan::Direction::LEFT)
             {
