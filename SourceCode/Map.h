@@ -34,6 +34,12 @@ public:
 
     virtual void Init(std::shared_ptr<GameLib::Sprite> sp, std::string fN, VECTOR2 s)
     {
+        for (int y = 0; y < MAP_Y; y++) {
+            for (int x = 0; x < MAP_X; x++) {
+                chip[y][x] = 0;
+            }
+        }
+
         if (!std::ifstream(fN.c_str())) return;
 
         mapSpr = sp;
