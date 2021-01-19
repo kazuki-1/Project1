@@ -27,7 +27,7 @@ void test_update()
         UI_GP_Manage::GetInstance()->Init();
 
         map_init(GETFOLDERNAME((curScene - 1)));
-        player_init();
+        player_init(GETFOLDERNAME((curScene - 1)));
 
 
         Wind_Effect::GetInstance()->Init();
