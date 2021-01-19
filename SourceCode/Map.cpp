@@ -186,10 +186,17 @@ void wind_update()
         {
             if (!fans[alpha].AlwaysOn)
                 continue;
+            //continue;
         }
         int distance{};
         for (int beta = 0; beta < fans.size(); ++beta)
         {
+            if (!fans[beta].On)
+            {
+                if (!fans[beta].AlwaysOn)
+                    continue;
+                //continue;
+            }
             if (alpha == beta)
                 continue;
             if (fans[alpha].dir == Fan::Direction::UP || fans[alpha].dir == Fan::Direction::UP)
@@ -217,6 +224,7 @@ void wind_update()
         {
             if (!fans[alpha].AlwaysOn)
                 continue;
+            //continue;
         }
         pos = VECTOR2((float)fans[alpha].x, (float)fans[alpha].y);
         
