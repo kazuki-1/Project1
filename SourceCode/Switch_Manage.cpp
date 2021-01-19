@@ -4,6 +4,12 @@ extern GameLib::Sprite* sprMain;
 extern std::vector<Fan>fans;
 
 void Switch_Manage::Init(std::string file_path) {
+	for (int y = 0; y < MAP_Y; y++) {
+		for (int x = 0; x < MAP_X; x++) {
+			switch_map[y][x] = 0;
+		}
+	}
+
 	if (!std::ifstream(file_path)) return;
 
 	LoadCSV(file_path, switch_map);
@@ -169,8 +175,8 @@ int ShutterManage::GetMapIndexByPosition(VECTOR2 position) {
 }
 
 void ShutterManage::Init(std::string file_path) {
+	shutter_map.clear();
 	if (!std::ifstream(file_path)) return;
-
 	int _shutter_map [MAP_Y][MAP_X];
 
 	LoadCSV(file_path, _shutter_map);

@@ -305,6 +305,7 @@ void wind_update()
 void map_init(std::string map_name)
 {
     sprMain = GameLib::sprite_load(L"./Data/Images/OBJ_4.png");
+    
     fans.clear();
     wind.clear();
     dist.clear();
@@ -319,7 +320,7 @@ void map_init(std::string map_name)
     ShutterManage::GetInstance()->Init("./Data/Map/" + map_name + "/" + map_name + "Shutter.txt");
     
     ShutterSwitch_Manage::GetInstance()->Init("./Data/Map/" + map_name + "/" + map_name + "SwitchShutter.txt");
-    FanSwitch_Manage::GetInstance()->Init("./Data/Map/Map4/" + map_name + "/" + map_name + "SwitchFan.txt");
+    FanSwitch_Manage::GetInstance()->Init("./Data/Map/" + map_name + "/" + map_name + "SwitchFan.txt");
 
 
     Collision.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Col.txt", SIZE);
