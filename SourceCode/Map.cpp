@@ -359,7 +359,7 @@ void map_update()
         if (slip_fan.size() == 1) {
             for (auto& a : fans)
             {
-                if (a.x == slip_fan[0]->x && a.y == slip_fan[0]->y - 1)
+                if (a.x == slip_fan[0]->x && (a.y == slip_fan[0]->y - 1 || a.y == slip_fan[0]->y + 1))
                 {
                     a.pos.x = slip_fan[0]->pos.x;
                     break;
