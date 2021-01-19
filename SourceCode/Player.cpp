@@ -215,9 +215,7 @@ void Player::Update()
             slip_fan.clear();
         }
         else if(!isignore){
-            if (tar_pos_x != -1) {
-                slip_fan.push_back(pushedFan);
-            }
+            slip_fan.push_back(pushedFan);
             pushedFan = nullptr;
         }
         
@@ -231,8 +229,6 @@ void Player::Update()
                 slip_fan.erase(slip_fan.begin() + i);
             }
         }
-        if (slip_fan.size() == 0) tar_pos_x = -1;
-
     }
 
     //Check collsion after update all position parameter
