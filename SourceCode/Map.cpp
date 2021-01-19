@@ -390,10 +390,12 @@ void map_render()
 {
     //Collision.Draw();
     //WindM.Draw();
-    for (auto& a : fans)
-        a.Draw();
     SpriteTexture.Draw();
     BG.Draw();
+
+
+    for (auto& a : fans)
+        a.Draw();
     /*Shutter.Draw();
     SwitchShutter.Draw();
     SwitchFan.Draw();*/
