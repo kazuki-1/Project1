@@ -287,7 +287,7 @@ void Player::Wind()
             {
                 if (player.speed.y > -5)
                 {
-                    player.speed.y -= 1.2f;
+                    player.speed.y -= 2.4f;
                     onGround = true;
                 }
                 //if(speed.y > 0)
