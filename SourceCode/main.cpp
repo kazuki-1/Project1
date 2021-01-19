@@ -33,10 +33,12 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 			// Initialization following the next scene
 			switch (nextScene)
 			{
+			case SCENES::TITLE:
+				break;
 			case SCENES::STAGE_SELECT:
 				stSel_Init();
 				break;
-			case SCENES::STAGE1:
+			default:
 				test_init();
 				break;
 			}
@@ -56,11 +58,12 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		// Rendering and updating according to the current scene
 		switch (curScene)
 		{
+		case SCENES::TITLE: break;
 		case SCENES::STAGE_SELECT:
 			stSel_Update();
 			stSel_Render();
 			break;
-		case SCENES::STAGE1:
+		default:
 			test_update();
 			test_render();
 		//	break;

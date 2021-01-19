@@ -39,4 +39,6 @@ enum SCENES
     STAGE8, 
     END
 };
+
+#define GETFOLDERNAME(index) ("Map" + std::to_string(index))
 #endif 

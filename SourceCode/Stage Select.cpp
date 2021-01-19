@@ -72,9 +72,11 @@ void stSel_Update()
         for (auto& a : test)
             a.Update();
         ++timer_ss;
-        if (CursorSelect(VECTOR2{ (float)GameLib::input::getCursorPosX(), (float)GameLib::input::getCursorPosY() }, &test[0]) && (GameLib::input::TRG_RELEASE(0) & GameLib::input::PAD_START))
-            nextScene = SCENES::STAGE1;
-            break;
+        for (int i = 0; i < SIZEOF_ARRAY(test); i++) {
+            if (CursorSelect(VECTOR2{ (float)GameLib::input::getCursorPosX(), (float)GameLib::input::getCursorPosY() }, &test[i]) && (GameLib::input::TRG_RELEASE(0) & GameLib::input::PAD_START))
+                nextScene = (i + 2);
+                break;
+        }
     }
 }
 

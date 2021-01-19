@@ -242,7 +242,7 @@ void Player::Update()
     //Comment this to see what is
 }
 
-void player_init()
+void player_init(std::string map_name)
 {
     player.Initialize(playerSpr, { 120, 100 }, { 1, 1 }, { 0, 0 }, { 70, 108 });
     player.pivot = { 27, 108 };

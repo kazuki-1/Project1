@@ -30,7 +30,7 @@ public:
     void PushFan(Fan* fan);
 };
 
-void player_init();
+void player_init(std::string map_name);
 void player_render();
 void player_update();
 

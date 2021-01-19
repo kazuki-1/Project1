@@ -7,6 +7,9 @@ extern Player player;
 extern Map Collision;
 int t_state, t_timer;
 
+
+extern int curScene;
+
 void test_init()
 {
     t_state = 0;
@@ -23,7 +26,7 @@ void test_update()
     case 1:
         UI_GP_Manage::GetInstance()->Init();
 
-        map_init();
+        map_init(GETFOLDERNAME((curScene - 1)));
         player_init();
 
 

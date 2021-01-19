@@ -302,7 +302,7 @@ void wind_update()
     }
     WindM.FanCollision();
 }
-void map_init()
+void map_init(std::string map_name)
 {
     sprMain = GameLib::sprite_load(L"./Data/Images/OBJ_4.png");
     fans.clear();
@@ -316,19 +316,19 @@ void map_init()
     SwitchShutter.Init(share_sprFan, "./Data/Map/Map4/Map4SwitchShutter.txt", SIZE);
     SwitchFan.Init(share_sprFan, "./Data/Map/Map4/Map4SwitchFan.txt", SIZE);*/
 
-    ShutterManage::GetInstance()->Init("./Data/Map/Map4/Map4Shutter.txt");
+    ShutterManage::GetInstance()->Init("./Data/Map/" + map_name + "/" + map_name + "Shutter.txt");
     
-    ShutterSwitch_Manage::GetInstance()->Init("./Data/Map/Map4/Map4SwitchShutter.txt");
-    FanSwitch_Manage::GetInstance()->Init("./Data/Map/Map4/Map4SwitchFan.txt");
+    ShutterSwitch_Manage::GetInstance()->Init("./Data/Map/" + map_name + "/" + map_name + "SwitchShutter.txt");
+    FanSwitch_Manage::GetInstance()->Init("./Data/Map/Map4/" + map_name + "/" + map_name + "SwitchFan.txt");
 
 
-    Collision.Init(share_sprFan, "./Data/Map/Map4/Map4Col.txt", SIZE);
-    SpriteTexture.Init(share_sprFan, "./Data/Map/Map4/Map4Tex.txt", SIZE);
-    WindM.Init(share_sprFan, "./Data/Map//Map4/Map4Fan.txt", SIZE);
+    Collision.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Col.txt", SIZE);
+    SpriteTexture.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Tex.txt", SIZE);
+    WindM.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Fan.txt", SIZE);
     WindM.AlwaysOn = true;
-    Fan1.Init(share_sprFan, "./Data/Map/Map4/Map4Fan1.txt", SIZE);
+    Fan1.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "Fan1.txt", SIZE);
     Fan1.StartOn = true;
-    Fan2.Init(share_sprFan, "./Data/Map/Map4/Map4Fan2.txt", SIZE);
+    Fan2.Init(share_sprFan, "./Data/Map/" + map_name + "/" + map_name + "an2.txt", SIZE);
     Fan2.StartOn = false;
     wind_init(&WindM);
     wind_init(&Fan1);

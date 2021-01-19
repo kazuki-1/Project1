@@ -6,6 +6,7 @@
 #include "Object.h"
 #include "Player.h"
 #include "common.h"
+#include <ostream>
 
 #define MAP_X 38
 #define MAP_Y 18
@@ -33,6 +34,8 @@ public:
 
     virtual void Init(std::shared_ptr<GameLib::Sprite> sp, std::string fN, VECTOR2 s)
     {
+        if (!std::ifstream(fN.c_str())) return;
+
         mapSpr = sp;
         fileN = fN;
         size = s;
@@ -88,7 +91,7 @@ public:
         GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (_dir % 14) * 54, _dir / 14 * 54, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
     }
 };
-void map_init();
+void map_init(std::string map_name);
 void map_update();
 void map_render();
 bool HoriChipCheck(Object* obj, Map* map);
