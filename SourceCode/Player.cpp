@@ -281,7 +281,7 @@ void Player::Wind()
             {
                 player.speed.x += 1.0f;
             }
-            else if (wind[alpha].dir == Fan::Direction::UP)
+            else if (wind[alpha].dir == Fan::Direction::UP || wind[alpha].dir == Fan::Direction::RISE)
             {
                 if (player.speed.y > -5)
                 {

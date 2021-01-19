@@ -40,6 +40,9 @@ void Wind_Effect::Update() {
 					if (it.dir != Fan::Direction::UP) {
 						eff.speed.y *= 0.75;
 						eff.speed.x += sign(eff.speed.x);
+					} else if(it.dir == Fan::Direction::UP) {
+						eff.speed.y -= 1;
+						eff.speed.x *= 0.75f;
 					}
 				}
 			}
