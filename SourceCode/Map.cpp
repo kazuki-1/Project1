@@ -280,13 +280,11 @@ void wind_update()
                     temp = { 0, 0 };
 
             }
-            for (int y = 0; y < MAP_Y; ++y)
+            int a{ Collision.getChip((pos + temp)* 54.0f) };
+            if (a)
             {
-                for (int x = 0; x < MAP_X; ++x)
-                {
-                    if (Collision.getChip(pos * 54.0f))
-                        temp = { 0, 0 };
-                }
+                //int b{ Collision.getChip((pos + temp) * 54.0f) };
+                temp = { 0, 0 };
             }
             Fan::Direction dir = Fan::Direction::UP;
             if (temp == VECTOR2{ -1, 0 })
@@ -297,8 +295,8 @@ void wind_update()
                 dir = Fan::Direction::UP;
             else if (temp == VECTOR2{ 0, 0 })
                 dir = Fan::Direction::NONE;
-            if (Collision.getChip(pos * 54))
-                continue;
+            //if (Collision.getChip(pos * 54))
+            //    continue;
             wind.push_back({ (int)pos.x, (int)pos.y, dir });
         }
     }

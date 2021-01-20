@@ -2,10 +2,12 @@
 #include "Player.h"
 #include "UI.h"
 #include "Wind_Effect.h"
+#include "TransitionEffect.h"
 extern Player player;
 extern Map Collision;
+Transition* transition;
+GameLib::Sprite* sprTrans;
 int t_state, t_timer;
-bool isTransitioning;
 
 extern int curScene;
 
@@ -13,6 +15,8 @@ void test_init()
 {
     t_state = 0;
     t_timer = 0;
+    //sprTrans = sprite_load(L"./Data/Images/transition.png");
+    //transition->Initialize(sprTrans, { 0, 0 }, { 1.5, 1.5 }, { 0, 0 }, { 1238, 2129 });
 }
 
 void test_update()
