@@ -251,6 +251,16 @@ void Player::Update()
         FanColl(this, &fan);
     }
     //Comment this to see what is
+    for (int y = 0; y < MAP_Y; ++y)
+    {
+        for (int x = 0; x < MAP_X; ++x)
+        {
+            if (HitGoal(this, &Collision)) {
+                nextScene++;
+                return;
+            }
+        }
+    }
 }
 
 void player_init(std::string map_name)
