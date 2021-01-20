@@ -161,24 +161,24 @@ void Player::Update()
         isJump = true;
     }
 
-    if (TopChipCheck(&player, &Collision)) {
-        if (speed.y < 0) {
-            pos.y = std::roundf(pos.y / 54) * 54;
-            speed.y = 0;
-        }
-    }
     pos += speed;
 
     CheckSwitchCollision(ShutterSwitch_Manage::GetInstance());
     CheckSwitchCollision(FanSwitch_Manage::GetInstance());
 
-   if (HoriChipCheck(&player, &Collision) || ShutterManage::GetInstance()->CheckCollision(&player))
+
+    if (HoriChipCheck(&player, &Collision) || ShutterManage::GetInstance()->CheckCollision(&player))
     {
         pos.x = std::round(tpos.x / 54) * 54.0f;
     }
     
-    if (VertiChipCheck(&player, &Collision)) {
-        if (speed.y > 0) {
+    if (TopChipCheck(&player, &Collision)) {
+        if (speed.y < 0) {
+            pos.y = std::roundf(pos.y / 54) * 54;
+            speed.y = 0;
+        }
+    } else if (VertiChipCheck(&player, &Collision)) {
+        if (speed.y > 1) {
             pos.y = std::ceil(pos.y / 54) * 54 - 28;
             onGround = true;
         }

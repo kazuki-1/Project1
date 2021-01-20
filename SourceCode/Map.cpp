@@ -62,14 +62,14 @@ bool HoriChipCheck(Object* obj, Map *map)
 {
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y }) != 0)
         return true;
-    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 30 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 30 }) != 0)
+    if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 54 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y + 54 }) != 0)
         return true;
     if (map->getChip({ obj->pos.x + 1 + obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0 || map->getChip({ obj->pos.x - 1 - obj->pivot.x + 27, obj->pos.y - obj->pivot.y / 2 }) != 0)
         return true;
     return false;
 }
 bool VertiChipCheck(Object* obj, Map *map)
-{
+{   
     if (map->getChip({ std::roundf((obj->pos.x - obj->pivot.x + 1) / 54) * 54, obj->pos.y + 1 + 54 / 2 }) != 0 || map->getChip({ obj->pos.x + obj->pivot.x - 1, obj->pos.y + 1 + 54 / 2 }) != 0)
         return true;
     
@@ -77,12 +77,13 @@ bool VertiChipCheck(Object* obj, Map *map)
 }
 bool TopChipCheck(Object* obj, Map* map)
 {
-    if (map->getChip({ obj->pos.x + 1, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + 1, obj->pos.y - obj->pivot.y + 18}))
         return true;
-    if (map->getChip({ obj->pos.x + obj->pivot.x - 1, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + obj->pivot.x - 1, obj->pos.y - obj->pivot.y + 18 }))
         return true;
     return false;
 }
+
 void WindMap::Update()
 {
 }
