@@ -174,8 +174,10 @@ int ShutterManage::GetMapIndexByPosition(VECTOR2 position) {
 	return -1;
 }
 
+int tar_y = -1;
 void ShutterManage::Init(std::string file_path) {
 	shutter_map.clear();
+	tar_y = -1;
 	if (!std::ifstream(file_path)) return;
 	int _shutter_map [MAP_Y][MAP_X];
 
@@ -198,7 +200,6 @@ bool ShutterManage::CheckCollision(Object* obj) {
 
 void ShutterManage::Active(bool isActive) {
 	if (!isActive) return;
-	static int tar_y = -1;
 	for (auto& it : shutter_map) {
 		if (tar_y == -1) tar_y = it.position.y - 54;
 		it.position.y += (tar_y - it.position.y) * 0.1f;

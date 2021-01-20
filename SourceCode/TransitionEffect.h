@@ -19,9 +19,13 @@ public:
             angle = DirectX::XMConvertToRadians(90.0f);
 
             Horizontol = true;
+            Vertical = false;
         } else {
             pos = { SCREEN_W / 2, -pivot.y };
+            angle = DirectX::XMConvertToRadians(0.0f);
+
             Vertical = true;
+            Horizontol = false;
         }
         state = true;
     }
