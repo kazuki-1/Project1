@@ -154,7 +154,7 @@ void Player::Update()
 
     if ((TRG(0) & PAD_L1) && onGround)
     {
-        speed.y = -16.0f;
+        speed.y = -18.0f;
         onGround = false;
         isJump = true;
     }
@@ -191,6 +191,7 @@ void Player::Update()
         float a{ roundf(pos.x / 54) };
 
         bool isignore = false;
+        bool hasFloor = true;
         debug::setString("fan : %d", pushedFan->x);
         for (int alpha = 0; alpha < fans.size(); ++alpha)
         {
@@ -203,13 +204,11 @@ void Player::Update()
                 break;
             }
         }
-        for (int y = 0; y < MAP_Y; ++y)
-        {
-            for (int x = 0; x < MAP_X; ++x)
-            {
-                if ((speed.x > 0 && Collision.getChip(pushedFan->pos + VECTOR2{ 27, 0 })) || (speed.x < 0 && Collision.getChip(pushedFan->pos - VECTOR2{ 27, 0 })))
-                    fanCheck = true;
-            }
+    
+        if ((speed.x > 0 && Collision.getChip(pushedFan->pos + VECTOR2{ 27, 0 })) || (speed.x < 0 && Collision.getChip(pushedFan->pos - VECTOR2{ 27, 0 })))
+            fanCheck = true;
+        if (Collision.getChip(pushedFan->pos + VECTOR2{ 0, 54 }) == 0) {
+            hasFloor = false;
         }
         
         if (!fanCheck && onGround && (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0)) {
@@ -224,6 +223,11 @@ void Player::Update()
             slip_fan.clear();
         }
         else if(!isignore){
+            slip_fan.push_back(pushedFan);
+            pushedFan = nullptr;
+        }
+
+        if (!hasFloor && pushedFan) {
             slip_fan.push_back(pushedFan);
             pushedFan = nullptr;
         }

@@ -1,5 +1,6 @@
 #include "Animation.h"
 
+extern bool isPause;
 VECTOR2 Player_Animation::GetAnimation_Offset(STATE state) {
 	if (state != cur_state) {
 		animation_time = 0;

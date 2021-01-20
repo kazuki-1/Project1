@@ -45,7 +45,12 @@ void Map::Draw()
         {
             if (chip[y][x] == 0)
                 continue;
-            DrawChip({ x * size.x, y * size.y },  (chip[y][x] - 1) % 14 * size.x, chip[y][x] / 14 * size.y );
+            int tx = (chip[y][x] - 1) % 14;
+            int ty = chip[y][x] / 14;
+
+            if(chip[y][x] == 140 || chip[y][x] == 154 || chip[y][x] == 168) ty--;
+
+            DrawChip({ x * size.x, y * size.y }, tx * size.x, ty * size.y);
         }
     }
 }
@@ -140,6 +145,8 @@ void wind_init(WindMap *wM)
     {
         for (int beta = 0; beta < MAP_X; ++beta)
         {
+            if (wM->chip[alpha][beta] == Fan::Direction::BLOCK)
+                fans.push_back({ beta, alpha, Fan::Direction::BLOCK, true, true });
             if (wM->StartOn)
             {
                 if (wM->chip[alpha][beta] == Fan::Direction::RIGHT)
@@ -371,7 +378,7 @@ void map_update()
     //            fans[alpha].pos.x = fans[beta].pos.x;
     //    }
     //}
-    if (pushedFan)
+    if (pushedFan && pushedFan->dir != Fan::Direction::BLOCK)
     {
         for (auto& a : fans)
         {
@@ -382,7 +389,7 @@ void map_update()
             }
         }
     } else {
-        if (slip_fan.size() == 1) {
+        if (slip_fan.size() == 1 && slip_fan[0]->dir != Fan::Direction::BLOCK) {
             for (auto& a : fans)
             {
                 if (a.x == slip_fan[0]->x && (a.y == slip_fan[0]->y - 1 || a.y == slip_fan[0]->y + 1))
@@ -406,8 +413,8 @@ void map_render()
     //Collision.Draw();
     //WindM.Draw();
     ShutterManage::GetInstance()->Render();
-    SpriteTexture.Draw();
     BG.Draw();
+    SpriteTexture.Draw();
 
 
     for (auto& a : fans)

@@ -15,6 +15,8 @@ void Wind_Effect::Update() {
 	if (delta_time <= 0) {
 		for (auto& it : fans) {
 			if (!it.On && !it.AlwaysOn) continue;
+			if (it.dir == Fan::Direction::BLOCK) continue;
+
 			VECTOR2 speed = { 0, 0 };
 
 			if (it.dir == Fan::Direction::UP)			speed = { 0, -1 };

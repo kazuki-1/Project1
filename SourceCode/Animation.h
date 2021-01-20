@@ -3,8 +3,6 @@
 #include "Object.h"
 #include "common.h"
 
-#define ROBOTWALK 0
-
 class Player_Animation {
 public:
 	enum STATE { IDLE, WALK, JUMP, FALL };

@@ -9,7 +9,7 @@ extern Map Collision;
 int t_state, t_timer;
 bool Clear{};
 extern int curScene;
-
+extern bool isPause;
 void test_init()
 {
 
@@ -32,6 +32,7 @@ void test_update()
         // nothing
     case 1:
         UI_GP_Manage::GetInstance()->Init();
+
         map_init(GETFOLDERNAME((curScene - 1)));
         player_init(GETFOLDERNAME((curScene - 1)));
 
@@ -40,6 +41,13 @@ void test_update()
         ++t_state;
     case 2:
         UI_GP_Manage::GetInstance()->Update();
+
+        if (isPause) {
+            music::pause(ROBOTWALK);
+            break;
+        } else {
+            music::resume(ROBOTWALK);
+        }
 
         map_update();
         player_update();
@@ -59,10 +67,10 @@ void test_render()
     //test.Draw();
 
 
-    Wind_Effect::GetInstance()->Render();
     map_render();
     player_render();
     UI_GP_Manage::GetInstance()->Render();
+    Wind_Effect::GetInstance()->Render();
     Transition::Instance()->Draw();
 }
 

@@ -90,7 +90,7 @@ public:
     
     enum Direction
     {
-        DOWN = 134, UP = 135, RIGHT = 136, LEFT = 137, RISE, NONE
+        DOWN = 134, UP = 135, RIGHT = 136, LEFT = 137, RISE, BLOCK = 129, NONE
     }dir;
     int id;
     bool On{};
@@ -100,10 +100,11 @@ public:
     void Draw()
     {
         int _dir = dir;
-        if(_dir == DOWN) _dir = 133;
-        else if(_dir == UP) _dir = 134;
+        if (_dir == DOWN) _dir = 133;
+        else if (_dir == UP) _dir = 134;
         else if (_dir == RIGHT) _dir = 135;
         else if (_dir == LEFT) _dir = 136;
+        else if (_dir == BLOCK) _dir = 128;
 
         GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (_dir % 14) * 54, _dir / 14 * 54, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
     }
