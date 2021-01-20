@@ -39,8 +39,7 @@ void test_update()
         Wind_Effect::GetInstance()->Init();
         ++t_state;
     case 2:
-        if(Clear)
-            UI_GP_Manage::GetInstance()->Update();
+        UI_GP_Manage::GetInstance()->Update();
 
         map_update();
         player_update();
@@ -60,10 +59,10 @@ void test_render()
     //test.Draw();
 
 
+    Wind_Effect::GetInstance()->Render();
     map_render();
     player_render();
     UI_GP_Manage::GetInstance()->Render();
-    Wind_Effect::GetInstance()->Render();
     Transition::Instance()->Draw();
 }
 

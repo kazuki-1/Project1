@@ -32,23 +32,12 @@ public:
     void Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, VECTOR2 ts)
     {
         if (spr) return;
+
         Object::Initialize(sp, p, s, tp, ts);
         pivot = { ts / 2 };
         
     }
-    void Reset()
-    {
-        state = false;
-        if (Vertical)
-        {
-            pos = { 0, -1500 - pivot.y };
-        }
-        else if (Horizontol)
-        {
-            pos = { 3000 + pivot.x, SCREEN_H / 2 };
-            angle = DirectX::XMConvertToRadians(90.0f);
-        }
-    }
+
     void Update()
     {
         if (Horizontol)

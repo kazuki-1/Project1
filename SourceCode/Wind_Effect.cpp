@@ -47,6 +47,11 @@ void Wind_Effect::Update() {
 				}
 			}
 		}
+		for (auto& it : fans) {
+			if (WindCollisionCheck(eff.position, { it.x * 1.0f, it.y * 1.0f })) {
+				eff.alpha *= 0.25f;
+			}
+		}
 	}
 
 
