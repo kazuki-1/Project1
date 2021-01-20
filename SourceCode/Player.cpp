@@ -52,7 +52,17 @@ void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, V
 {
     playerSpr = GameLib::sprite_load(L"./Data/Images/player_.png");
     Object::Initialize(playerSpr, p, s, tp, ts);
-
+    for (int y = 0; y < MAP_Y; ++y)
+    {
+        for (int x = 0; x < MAP_X; ++x)
+        {
+            if (Collision.chip[y][x] == 2)
+            {
+                pos = VECTOR2{ x * 54.0f , y * 54.0f } + VECTOR2{54, 0};
+                break;
+            }
+        }
+    }
     pushedFan = nullptr;
     tar_pos_x = -1;
 }
