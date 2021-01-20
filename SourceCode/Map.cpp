@@ -8,9 +8,6 @@ Map SpriteTexture;
 Map BG;
 extern Fan* pushedFan;
 extern std::vector<Fan*> slip_fan;
-//Map Shutter;
-//Map SwitchShutter;
-//Map SwitchFan;
 WindMap WindM;
 WindMap Fan1;
 WindMap Fan2;
@@ -305,7 +302,6 @@ void wind_update()
 void map_init(std::string map_name)
 {
     sprMain = GameLib::sprite_load(L"./Data/Images/OBJ_4.png");
-    
     fans.clear();
     wind.clear();
     dist.clear();
@@ -458,7 +454,9 @@ bool HitGoal(Object* obj, Map* map)
 {
     int right{ map->getChip(obj->pos + VECTOR2(54.0f, 0)) };
     int left{ map->getChip(obj->pos - VECTOR2(54.0f, 0)) };
-    if (right == 3 || left == 3)
+    int down{ map->getChip(obj->pos + VECTOR2(0, 54.0f)) };
+    int up{ map->getChip(obj->pos - VECTOR2(0, 54.0f)) };
+    if (right == 3 || left == 3 || down == 3 || up == 3)
         return true;
     return false;
 

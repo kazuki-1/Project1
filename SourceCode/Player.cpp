@@ -9,6 +9,7 @@ extern std::vector<Fan>fans;
 extern std::vector<Fan>wind;
 extern std::vector<Fan>dist;
 Player player;
+extern bool Clear;
 
 
 std::vector<Fan*> slip_fan;
@@ -43,10 +44,6 @@ void FanColl(Player* p, Fan* f)
     //    p->pos.y = f->pos.y + 54.0f;
 
 }
-
-
-
-
 using namespace GameLib::input;
 void Player::Initialize(GameLib::Sprite* sp, VECTOR2 p, VECTOR2 s, VECTOR2 tp, VECTOR2 ts)
 {
@@ -268,7 +265,7 @@ void player_init(std::string map_name)
     player.Initialize(playerSpr, { 120, 100 }, { 1, 1 }, { 0, 0 }, { 70, 108 });
     player.pivot = { 27, 108 };
     player.speed = { 0, 0 };
-
+    Clear = false;
     music::load(ROBOTWALK, L"./Data/Sound/robot_walk.wav");
 }
 

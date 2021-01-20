@@ -5,18 +5,20 @@
 #include "TransitionEffect.h"
 extern Player player;
 extern Map Collision;
-Transition* transition;
-GameLib::Sprite* sprTrans;
+//std::unique_ptr<Transition>transition(new Transition());
+std::unique_ptr<GameLib::Sprite> sprTrans;
 int t_state, t_timer;
-
+bool Clear{};
 extern int curScene;
 
 void test_init()
 {
+    sprTrans = std::make_unique<GameLib::Sprite>(sprite_load(L"./Data/Images/transition.png"));
+
+    //sprTrans = ;
     t_state = 0;
     t_timer = 0;
-    //sprTrans = sprite_load(L"./Data/Images/transition.png");
-    //transition->Initialize(sprTrans, { 0, 0 }, { 1.5, 1.5 }, { 0, 0 }, { 1238, 2129 });
+    Transition::Instance()->Initialize(sprTrans.get(), { 0, 0 }, { 1.5, 1.5 }, { 0, 0 }, { 0, 0 });
 }
 
 void test_update()
@@ -28,7 +30,7 @@ void test_update()
         // nothing
     case 1:
         UI_GP_Manage::GetInstance()->Init();
-
+        Transition::Instance()->Reset();
         map_init(GETFOLDERNAME((curScene - 1)));
         player_init(GETFOLDERNAME((curScene - 1)));
 
@@ -36,11 +38,15 @@ void test_update()
         Wind_Effect::GetInstance()->Init();
         ++t_state;
     case 2:
-        UI_GP_Manage::GetInstance()->Update();
+        if(Clear)
+            UI_GP_Manage::GetInstance()->Update();
 
         map_update();
         player_update();
-
+        if (Transition::Instance()->Transitioning())
+        {
+            Transition::Instance()->Update();
+        }
 
         Wind_Effect::GetInstance()->Update();
         break;
@@ -55,12 +61,11 @@ void test_render()
 
     map_render();
     player_render();
-
     UI_GP_Manage::GetInstance()->Render();
     Wind_Effect::GetInstance()->Render();
+    Transition::Instance()->Draw();
 }
 
 void test_deinit()
 {
-
 }
