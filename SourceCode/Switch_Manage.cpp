@@ -43,11 +43,11 @@ int Switch_Manage::GetMapIndexByPosition(VECTOR2 position) {
 }
 
 std::tuple<int, int> Switch_Manage::CheckCollision(Object* obj) {
-	VECTOR2 left_bottom = { obj->pos.x - obj->pivot.x, obj->pos.y };
-	VECTOR2 right_bottom = { obj->pos.x + obj->pivot.x, obj->pos.y };
+	VECTOR2 left_bottom = { obj->pos.x - obj->pivot.x + 54, obj->pos.y };
+	VECTOR2 right_bottom = { obj->pos.x + obj->pivot.x - 54, obj->pos.y };
 
-	VECTOR2 left_up= { obj->pos.x - obj->pivot.x, obj->pos.y - obj->pivot.y };
-	VECTOR2 right_up= { obj->pos.x + obj->pivot.x, obj->pos.y - obj->pivot.y };
+	VECTOR2 left_up= { obj->pos.x - obj->pivot.x + 54, obj->pos.y - obj->pivot.y + 54};
+	VECTOR2 right_up= { obj->pos.x + obj->pivot.x - 54, obj->pos.y - obj->pivot.y + 54 };
 
 	if (GetMapIndexByPosition(left_bottom))
 		return { left_bottom.x / 54, left_bottom.y / 54 };

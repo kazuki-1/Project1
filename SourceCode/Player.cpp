@@ -177,13 +177,14 @@ void Player::Update()
             pos.y = std::roundf(pos.y / 54) * 54;
             speed.y = 0;
         }
-    } else if (VertiChipCheck(&player, &Collision)) {
-        if (speed.y > 1) {
+    } 
+    
+    if (VertiChipCheck(&player, &Collision)) {
+        if (speed.y > 0) {
             pos.y = std::ceil(pos.y / 54) * 54 - 28;
             onGround = true;
         }
-    }
-    else {
+    } else {
         onGround = false;
     }
     if (pushedFan)
