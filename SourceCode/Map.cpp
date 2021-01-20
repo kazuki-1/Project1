@@ -77,12 +77,13 @@ bool VertiChipCheck(Object* obj, Map *map)
 }
 bool TopChipCheck(Object* obj, Map* map)
 {
-    if (map->getChip({ obj->pos.x + 1, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + 1, obj->pos.y - obj->pivot.y + 27 }))
         return true;
-    if (map->getChip({ obj->pos.x + obj->pivot.x - 1, obj->pos.y - obj->pivot.y + 1 }))
+    if (map->getChip({ obj->pos.x + obj->pivot.x - 1, obj->pos.y - obj->pivot.y + 27 }))
         return true;
     return false;
 }
+
 void WindMap::Update()
 {
 }
