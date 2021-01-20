@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Animation.h"
 #include "Switch_Manage.h"
+#include "TransitionEffect.h"
 
 GameLib::Sprite* playerSpr;
 extern Map Collision;
@@ -253,6 +254,7 @@ void Player::Update()
         for (int x = 0; x < MAP_X; ++x)
         {
             if (HitGoal(this, &Collision)) {
+                Transition::Instance()->Activate(false);
                 nextScene++;
                 return;
             }

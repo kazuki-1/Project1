@@ -16,7 +16,7 @@ void test_init()
     //sprTrans = ;
     t_state = 0;
     t_timer = 0;
-    Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.5, 1.5 }, { 0, 0 }, { 0, 0 });
+    Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.5, 1.5 }, { 0, 0 }, { 1238, 2129 });
 }
 
 void test_update()
@@ -24,11 +24,14 @@ void test_update()
     switch (t_state)
     {
     case 0:
+        if (Transition::Instance()->state) {
+            Transition::Instance()->Update();
+            return;
+        }
         ++t_state;
         // nothing
     case 1:
         UI_GP_Manage::GetInstance()->Init();
-        Transition::Instance()->Reset();
         map_init(GETFOLDERNAME((curScene - 1)));
         player_init(GETFOLDERNAME((curScene - 1)));
 
@@ -45,7 +48,7 @@ void test_update()
         {
             Transition::Instance()->Update();
         }
-
+        
         Wind_Effect::GetInstance()->Update();
         break;
     }
