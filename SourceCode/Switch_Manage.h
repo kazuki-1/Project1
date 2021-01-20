@@ -6,7 +6,7 @@
 
 class Switch_Manage {
 public:
-	void Init(std::string file_path);
+	virtual void Init(std::string file_path);
 	void Render();
 
 	std::tuple<int,int> CheckCollision(Object* obj);
@@ -35,6 +35,11 @@ public:
 	static ShutterSwitch_Manage* GetInstance() {
 		static ShutterSwitch_Manage instance;
 		return &instance;
+	}
+
+	void Init(std::string file_path) { 
+		isActive = false;
+		Switch_Manage::Init(file_path);  
 	}
 
 	void TriggerSwitch(int x, int y);

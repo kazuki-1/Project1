@@ -410,6 +410,7 @@ void map_render()
 {
     //Collision.Draw();
     //WindM.Draw();
+    ShutterManage::GetInstance()->Render();
     SpriteTexture.Draw();
     BG.Draw();
 
@@ -435,7 +436,6 @@ void map_render()
 
     //wind.clear();
 
-    ShutterManage::GetInstance()->Render();
 
     ShutterSwitch_Manage::GetInstance()->Render();
     FanSwitch_Manage::GetInstance()->Render();
