@@ -144,7 +144,7 @@ void Player::Update()
 
     Wind();
 
-    if (TRG(0) & PAD_L1 && onGround)
+    if ((TRG(0) & PAD_L1) && onGround)
     {
         speed.y = -16.0f;
         onGround = false;
@@ -288,8 +288,9 @@ void Player::Wind()
                 if (player.speed.y > -5)
                 {
                     player.speed.y -= 2.4f;
-                    onGround = true;
                 }
+
+                onGround = true;
                 //if(speed.y > 0)
             }
         }
