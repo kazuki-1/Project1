@@ -162,10 +162,10 @@ void Player::Update()
     CheckSwitchCollision(ShutterSwitch_Manage::GetInstance());
     CheckSwitchCollision(FanSwitch_Manage::GetInstance());
 
-   /* if (HoriChipCheck(&player, &Collision) || ShutterManage::GetInstance()->CheckCollision(&player))
+   if (HoriChipCheck(&player, &Collision) || ShutterManage::GetInstance()->CheckCollision(&player))
     {
         pos.x = std::round(tpos.x / 54) * 54.0f;
-    }*/
+    }
     
     if (VertiChipCheck(&player, &Collision)) {
         if (speed.y > 0) {

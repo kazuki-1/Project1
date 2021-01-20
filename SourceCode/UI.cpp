@@ -60,8 +60,9 @@ void UI_GP_Manage::Init() {
 	}) });
 
 	buttons.insert({ "RESET_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 + 100}, { 0.6f, 0.6f }, { 761, 154 }, reset_ui, [] {
+		int temp = curScene;
 		curScene = STAGE_SELECT;
-		nextScene = STAGE1;
+		nextScene = temp;
 		isPause = false;
 	}) });
 
