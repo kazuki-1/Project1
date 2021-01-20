@@ -160,7 +160,6 @@
     <ClCompile Include="SourceCode\Switch_Manage.cpp" />
     <ClCompile Include="SourceCode\TestMap.cpp" />
     <ClCompile Include="SourceCode\Title_Scene.cpp" />
-    <ClCompile Include="SourceCode\TransitionEffect.cpp" />
     <ClCompile Include="SourceCode\UI.cpp" />
     <ClCompile Include="SourceCode\Wind_Effect.cpp" />
   </ItemGroup>

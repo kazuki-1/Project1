@@ -6,8 +6,8 @@ class Transition : public Object
 public:
     static Transition* Instance()
     {
-        static Transition* instance = new Transition;
-        return instance;
+        static Transition instance;
+        return &instance;
     }
     bool Vertical;
     bool Horizontol;
