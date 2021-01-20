@@ -20,7 +20,7 @@ public:
 
             Horizontol = true;
         } else {
-            pos = { 0, -1500 - pivot.y };
+            pos = { SCREEN_W / 2, -pivot.y };
             Vertical = true;
         }
         state = true;
@@ -63,15 +63,14 @@ public:
         else if (Vertical)
         {
             pos.y += 30;
-            if (pos.y <= SCREEN_H / 2) {
+            if (pos.y > SCREEN_H / 2) {
                 state = false;
-            } else if (pos.y > 2000) {
+            } else if (pos.y > pivot.y) {
                 Vertical = false;
             }
         }
     }
-    void Draw()
-    {
+    void Draw() {
         if(Vertical || Horizontol)
             GameLib::sprite_render(spr.get(), pos.x, pos.y, size.x, size.y, tPos.x, tPos.y, tSize.x, tSize.y, pivot.x, pivot.y, angle, 1, 1, 1, 1);
     }

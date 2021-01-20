@@ -16,7 +16,7 @@ void test_init()
     //sprTrans = ;
     t_state = 0;
     t_timer = 0;
-    Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.5, 1.5 }, { 0, 0 }, { 1238, 2129 });
+    Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.75f, 1.75f }, { 0, 0 }, { 1238, 2129 });
 }
 
 void test_update()
