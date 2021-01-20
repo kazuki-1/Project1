@@ -47,6 +47,17 @@ public:
         size = s;
         Set();
     }
+    void Clear()
+    {
+        for (int y = 0; y < MAP_Y; ++y)
+        {
+            for (int x = 0; x < MAP_X; ++x)
+            {
+                chip[y][x] = 0;
+            }
+        }
+    }
+
 };
 //void test_init();
 
@@ -100,9 +111,11 @@ public:
 void map_init(std::string map_name);
 void map_update();
 void map_render();
+void map_deinit();
 bool HoriChipCheck(Object* obj, Map* map);
 bool VertiChipCheck(Object* obj, Map* map);
 bool TopChipCheck(Object* obj, Map* map);
+bool HitGoal(Object* obj, Map* map);
 bool HitCheck(VECTOR2 a_tl, VECTOR2 a_br, VECTOR2 b_tl, VECTOR2 b_br);
 bool HoriFanCheck(Player* p, Fan* f);
 void wind_init(WindMap* wM);

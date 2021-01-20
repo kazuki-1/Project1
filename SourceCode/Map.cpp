@@ -441,3 +441,27 @@ void map_render()
     ShutterSwitch_Manage::GetInstance()->Render();
     FanSwitch_Manage::GetInstance()->Render();
 }
+
+
+void map_deinit()
+{
+    Collision.Clear();
+    WindM.Clear();
+    Fan1.Clear();
+    Fan2.Clear();
+    BG.Clear();
+    wind.clear();
+    fans.clear();
+    dist.clear();
+
+}
+
+bool HitGoal(Object* obj, Map* map)
+{
+    int right{ map->getChip(obj->pos + VECTOR2(54.0f, 0)) };
+    int left{ map->getChip(obj->pos - VECTOR2(54.0f, 0)) };
+    if (right == 3 || left == 3)
+        return true;
+    return false;
+
+}

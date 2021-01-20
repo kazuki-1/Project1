@@ -2,11 +2,10 @@
 #include "Player.h"
 #include "UI.h"
 #include "Wind_Effect.h"
-
 extern Player player;
 extern Map Collision;
 int t_state, t_timer;
-
+bool isTransitioning;
 
 extern int curScene;
 
