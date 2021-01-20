@@ -392,7 +392,7 @@ void map_update()
         if (slip_fan.size() == 1 && slip_fan[0]->dir != Fan::Direction::BLOCK) {
             for (auto& a : fans)
             {
-                if (a.x == slip_fan[0]->x && (a.y == slip_fan[0]->y - 1 || a.y == slip_fan[0]->y + 1))
+                if (abs(a.pos.x - slip_fan[0]->pos.x) <= 27 && abs(a.pos.y - slip_fan[0]->pos.y) <= 200)
                 {
                     a.pos.x = slip_fan[0]->pos.x;
                     break;

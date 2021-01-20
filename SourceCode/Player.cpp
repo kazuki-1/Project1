@@ -212,7 +212,8 @@ void Player::Update()
         }
         
         if (!fanCheck && onGround && (pushedFan->pos.x < player.pos.x && speed.x < 0 || pushedFan->pos.x > player.pos.x && speed.x > 0)) {
-            pushedFan->pos.x += speed.x;
+           if(hasFloor) pushedFan->pos.x += speed.x;
+
             speed.x *= 0.3f;
             if (pushedFan->pos.x < player.pos.x) {
                 tar_pos_x = std::floorf(pushedFan->pos.x / 54) * 54;
