@@ -146,7 +146,7 @@ void Player::Update()
 
     if (TRG(0) & PAD_L1 && onGround)
     {
-        speed.y = -15.0f;
+        speed.y = -16.0f;
         onGround = false;
         isJump = true;
     }

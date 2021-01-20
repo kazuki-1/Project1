@@ -342,6 +342,26 @@ void map_init(std::string map_name)
 }
 void map_update()
 {
+    for (int alpha = 0; alpha < fans.size(); ++alpha)
+    {
+        if (fans[alpha].y == 17)
+            continue;
+        bool Bottom{ false };
+        for (auto& a : fans)
+        {
+            if (&a == &fans[alpha])
+                continue;
+            if (a.y == fans[alpha].y + 1 && a.x == fans[alpha].x)
+            {
+                Bottom = true;
+                break;
+            }
+        }
+        if (Bottom)
+            continue;
+        if (!Collision.getChip(fans[alpha].pos + VECTOR2(0, 54)))
+            fans[alpha].pos.y += 5.0f;
+    }
     WindM.Update();
     wind_update();
     //for (int alpha = 0; alpha < fans.size(); ++alpha)
