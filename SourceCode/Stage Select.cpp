@@ -76,7 +76,7 @@ void stSel_Update()
         ++timer_ss;
         for (int i = 0; i < SIZEOF_ARRAY(test); i++) {
             if (CursorSelect(VECTOR2{ (float)GameLib::input::getCursorPosX(), (float)GameLib::input::getCursorPosY() }, &test[i]) && (GameLib::input::TRG_RELEASE(0) & GameLib::input::PAD_START)) {
-                nextScene = (i + 2);
+                nextScene = (i + 1);
                 break;
             }
         }

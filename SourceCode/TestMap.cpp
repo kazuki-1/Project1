@@ -12,6 +12,7 @@ extern int curScene;
 extern bool isPause;
 
 int cur_stage_level = 0;
+std::unique_ptr<GameLib::Sprite> gomispr;
 
 void test_init()
 {
@@ -20,6 +21,8 @@ void test_init()
     t_state = 0;
     t_timer = 0;
     Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.75f, 1.75f }, { 0, 0 }, { 1238, 2129 });
+    if (!gomispr)
+        gomispr = std::unique_ptr<GameLib::Sprite>(sprite_load(L"./Data/Images/gomi.png"));
 }
 
 void test_update()
@@ -28,8 +31,8 @@ void test_update()
     {
     case 0:
 
-        if (curScene - 2 > cur_stage_level)
-            cur_stage_level = curScene - 2;
+        if (curScene - 1 > cur_stage_level)
+            cur_stage_level = curScene - 1;
 
         if (Transition::Instance()->state) {
             Transition::Instance()->Update();
@@ -41,8 +44,8 @@ void test_update()
         UI_GP_Manage::GetInstance()->Init();
 
 
-        map_init(GETFOLDERNAME((curScene - 1)));
-        player_init(GETFOLDERNAME((curScene - 1)));
+        map_init(GETFOLDERNAME((curScene)));
+        player_init(GETFOLDERNAME((curScene)));
 
 
         Wind_Effect::GetInstance()->Init();
@@ -73,7 +76,8 @@ void test_render()
 {
     GameLib::clear(0, 0, 0);
     //test.Draw();
-
+    if (curScene == 0)
+        sprite_render(gomispr.get(), 0, 972, 1, 1, 0, 0, 2052, 972, 0, 972, 0, 1, 1, 1, 1);
 
 
     map_render();

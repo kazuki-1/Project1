@@ -427,12 +427,12 @@ void map_render()
 {
     //Collision.Draw();
     //WindM.Draw();
-    if ((curScene - 1) != 7)
+    if ((curScene ) != 7)
         ShutterManage::GetInstance()->Render();
     BG.Draw();
     SpriteTexture.Draw();
 
-    if ((curScene - 1) == 7)
+    if ((curScene ) == 7)
         ShutterManage::GetInstance()->Render();
 
 

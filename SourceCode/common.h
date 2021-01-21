@@ -14,8 +14,8 @@ extern int curScene, nextScene;
 enum SCENES
 {
     NONE =  -1, 
-    TITLE, 
-    STAGE_SELECT, 
+    STAGE_SELECT = 10,
+    TITLE = 0,
     STAGE1, 
     STAGE2, 
     STAGE3, 

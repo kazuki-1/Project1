@@ -2,7 +2,7 @@
 #include "all.h"
 
 int curScene = SCENES::NONE;
-int nextScene = SCENES::STAGE_SELECT;
+int nextScene = SCENES::TITLE;
 #include "TestMap.h"
 #include "Stage Select.h"
 // WinMain
@@ -34,6 +34,7 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 			switch (nextScene)
 			{
 			case SCENES::TITLE:
+				test_init();
 				break;
 			case SCENES::STAGE_SELECT:
 				stSel_Init();
@@ -58,7 +59,11 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		// Rendering and updating according to the current scene
 		switch (curScene)
 		{
-		case SCENES::TITLE: break;
+		case SCENES::TITLE: 
+			test_update();
+			test_render(); 
+		break;
+
 		case SCENES::STAGE_SELECT:
 			stSel_Update();
 			stSel_Render();
