@@ -51,7 +51,9 @@ void UI_GP_Manage::Init() {
 	})});
 
 	buttons.insert({ "TITLE_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 - 100}, { 0.6f, 0.6f }, { 761, 154 }, title_ui, [] {
-		isPause != isPause;
+		curScene = STAGE_SELECT;
+		nextScene = TITLE;
+		isPause = false;
 	}) });
 
 	buttons.insert({ "STAGE_BTN", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2}, { 0.6f, 0.6f }, { 761, 154 }, stage_ui, [] {

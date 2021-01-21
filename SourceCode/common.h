@@ -6,7 +6,7 @@
 #define SCENE_TITLE 0
 #define SCENE_GAME 1
 #define SCREEN_W 1920
-#define SCREEN_H 1080
+#define SCREEN_H 940
 
 
 // Declaration
