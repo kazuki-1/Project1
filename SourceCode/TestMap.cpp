@@ -67,6 +67,7 @@ void test_render()
     //test.Draw();
 
 
+
     map_render();
     player_render();
     UI_GP_Manage::GetInstance()->Render();

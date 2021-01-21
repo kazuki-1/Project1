@@ -197,6 +197,17 @@ void wind_update()
         }
         if (fans[alpha].dir != Fan::Direction::BLOCK)
             fans[alpha].timer++;
+    }
+
+    for (int alpha = 0; alpha < fans.size(); ++alpha)
+    {
+        if (!fans[alpha].On)
+        {
+            if (!fans[alpha].AlwaysOn) {
+                continue;
+            }
+            //continue;
+        }
         
         int distance{};
         for (int beta = 0; beta < fans.size(); ++beta)
