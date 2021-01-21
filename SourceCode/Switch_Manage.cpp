@@ -211,6 +211,11 @@ void ShutterManage::Render() {
 		int offset_x = it.index  % 14;
 		int offset_y = it.index  / 14;
 
+
+		if (curScene - 1 == 7) {
+			if ((it.position.y >= 5 * 54 && it.position.y <= 6 * 54) || it.position.y < 54) continue;
+		}
+
 		sprite_render(sprMain, it.position.x, it.position.y, 1, 1, offset_x * 54, offset_y * 54, 54, 54, 27, 27, 0, 1, 1, 1, 1);
 	}
 }

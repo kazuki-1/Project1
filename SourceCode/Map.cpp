@@ -427,9 +427,13 @@ void map_render()
 {
     //Collision.Draw();
     //WindM.Draw();
-    ShutterManage::GetInstance()->Render();
+    if ((curScene - 1) != 7)
+        ShutterManage::GetInstance()->Render();
     BG.Draw();
     SpriteTexture.Draw();
+
+    if ((curScene - 1) == 7)
+        ShutterManage::GetInstance()->Render();
 
 
     for (auto& a : fans)
