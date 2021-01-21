@@ -225,17 +225,20 @@ void wind_update()
                 continue;
             if (fans[alpha].y == fans[beta].y)
             {
-                if (fans[alpha].x - fans[beta].x > 0)
-                    continue;
-                distance = abs(fans[alpha].x - fans[beta].x);
-                
-                int center = fans[alpha].x + distance / 2;
-                if (center && distance < 10)
+                if (fans[alpha].dir == Fan::Direction::RIGHT && fans[beta].dir == Fan::Direction::LEFT)
                 {
-                    dist.push_back({ center, fans[alpha].y, Fan::Direction::UP });
-                    ++alpha;
-                    ++beta;
-                    break;
+                    if (fans[alpha].x - fans[beta].x > 0)
+                        continue;
+                    distance = abs(fans[alpha].x - fans[beta].x);
+
+                    int center = fans[alpha].x + distance / 2;
+                    if (center && distance < 10)
+                    {
+                        dist.push_back({ center, fans[alpha].y, Fan::Direction::UP });
+                        ++alpha;
+                        ++beta;
+                        break;
+                    }
                 }
             }
         }
