@@ -13,7 +13,9 @@ extern bool isPause;
 
 int cur_stage_level = 0;
 std::unique_ptr<GameLib::Sprite> gomispr;
-
+std::unique_ptr<GameLib::Sprite>sprBG1;
+std::unique_ptr<GameLib::Sprite>sprBG2;
+void BG_Render(SCENES s);
 void test_init()
 {
 
@@ -23,7 +25,13 @@ void test_init()
     Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.75f, 1.75f }, { 0, 0 }, { 1238, 2129 });
     if (!gomispr)
         gomispr = std::unique_ptr<GameLib::Sprite>(sprite_load(L"./Data/Images/gomi_2.png"));
+    if (!sprBG1)
+        sprBG1 = std::unique_ptr<GameLib::Sprite>(sprite_load(L"./Data/Images/bg_1.png"));
+    if (!sprBG2)
+        sprBG2 = std::unique_ptr<GameLib::Sprite>(sprite_load(L"./Data/Images/bg_2.png"));
 }
+
+
 
 void test_update()
 {
@@ -75,10 +83,10 @@ void test_update()
 void test_render()
 {
     GameLib::clear(0, 0, 0);
+    BG_Render((SCENES)nextScene);
     //test.Draw();
     if (curScene == 0 || curScene == 9)
         sprite_render(gomispr.get(), 540, (MAP_Y - 1) * 54, 0.65f, 0.65f, 0, 0, 1428, 559, 0, 559, 0, 1, 1, 1, 1);
-
 
     map_render();
     player_render();
@@ -89,4 +97,19 @@ void test_render()
 
 void test_deinit()
 {
+}
+
+void BG_Render(SCENES s)
+{
+    switch (s)
+    {
+    case SCENES::STAGE3:
+    case SCENES::STAGE6:
+    case SCENES::STAGE7:
+    case SCENES::STAGE8:
+        sprite_render(sprBG1.get(), 0, 0, 1, 1.2, 0, 0, 2056, 972, 0, 0, 0.0f, 1, 1, 1, 1);
+        break;
+    default:
+        sprite_render(sprBG2.get(), 0, 0, 1, 1.2, 0, 0, 2056, 972, 0, 0, 0.0f, 1, 1, 1, 1);
+    }
 }
