@@ -22,7 +22,7 @@ void test_init()
     t_timer = 0;
     Transition::Instance()->Initialize(sprite_load(L"./Data/Images/transition.png"), { 0, 0 }, { 1.75f, 1.75f }, { 0, 0 }, { 1238, 2129 });
     if (!gomispr)
-        gomispr = std::unique_ptr<GameLib::Sprite>(sprite_load(L"./Data/Images/gomi.png"));
+        gomispr = std::unique_ptr<GameLib::Sprite>(sprite_load(L"./Data/Images/gomi_2.png"));
 }
 
 void test_update()
@@ -46,7 +46,7 @@ void test_update()
 
         map_init(GETFOLDERNAME((curScene)));
         player_init(GETFOLDERNAME((curScene)));
-
+            
 
         Wind_Effect::GetInstance()->Init();
         ++t_state;
@@ -77,7 +77,7 @@ void test_render()
     GameLib::clear(0, 0, 0);
     //test.Draw();
     if (curScene == 0)
-        sprite_render(gomispr.get(), 0, 972, 1, 1, 0, 0, 2052, 972, 0, 972, 0, 1, 1, 1, 1);
+        sprite_render(gomispr.get(), 540, (MAP_Y - 1) * 54, 0.65f, 0.65f, 0, 0, 1428, 559, 0, 559, 0, 1, 1, 1, 1);
 
 
     map_render();

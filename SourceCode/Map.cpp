@@ -423,6 +423,51 @@ void map_update()
 
     ShutterManage::GetInstance()->Active(ShutterSwitch_Manage::GetInstance()->isActive);
 }
+
+void Tutorial(SCENES s)
+{
+    static int timer = 0;
+    timer++;
+    switch (s)
+    {
+    case SCENES::STAGE1:
+    {
+        if (player.pos.x > 250 && player.pos.x < 350)
+            font::textOut(1, "SPACE : JUMP", { 150, 600 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+        if (player.pos.x > 600 & player.pos.x < 700)
+            font::textOut(1, "RIDE THE WIND", { 500, 600 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+        break;
+    }
+    case SCENES::STAGE2:
+    {
+        if (player.pos.x > 300 && player.pos.x < 600 && player.pos.y > 400 && player.pos.y < 550)
+            font::textOut(1, "PUSH BUTTON", { 450, 400 }, { 0.5, 0.5 }, { 1, 1, 1, 1 }, TEXT_ALIGN::MIDDLE);
+        if (player.pos.x > 300 && player.pos.x < 700 && player.pos.y > 700 && player.pos.y < 900)
+            font::textOut(1, "PUSH THE FAN", { 500, 750 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+
+        break;
+    }
+    case SCENES::STAGE3:
+    {
+        if (timer / 30 % 2 == 0)
+            font::textOut(1, "MENU -->", { 1375, 75 }, { 1, 1 }, { 1, 1, 1, 1 });
+        break;
+
+    }
+    case SCENES::STAGE5:
+    {
+        if (player.pos.x > 900 && player.pos.x < 1400 && player.pos.y > 200 && player.pos.y < 300)
+            font::textOut(1, "PRESS N TO CHANGE DIRECTION OF FAN", { 700, 100 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+        break;
+    }
+    case SCENES::STAGE6:
+    {
+        if (player.pos.x > 400 && player.pos.x < 800 && player.pos.y > 200 && player.pos.y < 300)
+            font::textOut(1, "PUSH THE BOX", { 400, 150 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+    }
+    }
+}
+
 void map_render()
 {
     //Collision.Draw();
@@ -457,6 +502,7 @@ void map_render()
 
     //wind.clear();
 
+    Tutorial((SCENES)nextScene);
 
     ShutterSwitch_Manage::GetInstance()->Render();
     FanSwitch_Manage::GetInstance()->Render();
