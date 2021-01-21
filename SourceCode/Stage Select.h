@@ -6,7 +6,7 @@
 class SEL_ELEM
 {
 public:
-    GameLib::Sprite* spr;
+    std::shared_ptr<GameLib::Sprite> spr;
     VECTOR2 pos;
     VECTOR2 scale;
     VECTOR2 tPos;
@@ -14,7 +14,7 @@ public:
     VECTOR2 pivot{ tSize / 2 };
     void Draw()
     {
-        GameLib::sprite_render(spr,
+        GameLib::sprite_render(spr.get(),
             pos.x, pos.y, 
             scale.x, scale.y, 
             tPos.x, tPos.y, 

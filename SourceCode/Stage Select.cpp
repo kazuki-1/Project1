@@ -1,7 +1,7 @@
 int state_ss;
 int timer_ss;
 #include "Stage Select.h"
-std::unique_ptr<GameLib::Sprite>sprTest;
+std::shared_ptr<GameLib::Sprite>sprTest;
 extern int cur_stage_level;
 bool CursorSelect(VECTOR2 cPos, SEL_ELEM* obj)
 {
@@ -32,7 +32,8 @@ void stSel_Init()
     state_ss = 0;
     timer_ss = 0;
     int a{};
-    sprTest.reset(GameLib::sprite_load(L"./Data/Images/test.png"));
+    sprTest.reset(GameLib::sprite_load(L"./Data/Images/StageImg.png"));
+
     test[0].pos = { 100 + 150, 300 + 100 };
     test[1].pos = { 450 + 150, 300 + 100 };
     test[2].pos = { 800 + 150, 300 + 100 };
@@ -43,11 +44,12 @@ void stSel_Init()
     test[7].pos = { 800 + 150, 600 + 100 };
     test[8].pos = { 1150 + 150, 600 + 100 };
     test[9].pos = { 1500 + 150, 600 + 100 };
-    for (auto& a : test)
-    {
-        a.spr = sprTest.get();
+    int i = 0;
+    for (auto& a : test) {
+        a.spr = sprTest;
         a.scale = { 1, 1 };
-        a.tSize = { 300, 200 };
+        a.tSize = { 300, 144 };
+        a.tPos.x = i++ * 300;
         a.pivot = a.tSize / 2;
         a.alpha = 0.3f;
     }
