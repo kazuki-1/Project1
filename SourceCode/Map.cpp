@@ -195,7 +195,9 @@ void wind_update()
             }
             //continue;
         }
-        fans[alpha].timer++;
+        if (fans[alpha].dir != Fan::Direction::BLOCK)
+            fans[alpha].timer++;
+        
         int distance{};
         for (int beta = 0; beta < fans.size(); ++beta)
         {
