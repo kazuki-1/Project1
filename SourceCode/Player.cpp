@@ -259,7 +259,7 @@ void Player::Update()
         for (int x = 0; x < MAP_X; ++x)
         {
             if (HitGoal(this, &Collision)) {
-                Transition::Instance()->Activate(((nextScene) == 3));
+                Transition::Instance()->Activate(((nextScene) == 3 || (nextScene) == 8));
                 nextScene++;
                 return;
             }

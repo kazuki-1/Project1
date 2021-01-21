@@ -76,7 +76,7 @@ void test_render()
 {
     GameLib::clear(0, 0, 0);
     //test.Draw();
-    if (curScene == 0)
+    if (curScene == 0 || curScene == 9)
         sprite_render(gomispr.get(), 540, (MAP_Y - 1) * 54, 0.65f, 0.65f, 0, 0, 1428, 559, 0, 559, 0, 1, 1, 1, 1);
 
 
