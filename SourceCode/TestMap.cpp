@@ -108,7 +108,7 @@ void test_render()
     Transition::Instance()->Draw();
 
     if (curScene == SCENES::TITLE)
-        sprite_render(sprTitle.get(), 0, 0, 0.7f, 0.7f, 0, 0, 1190, 564, 0, 0, 0, 1, 1, 1, 1);
+        sprite_render(sprTitle.get(), 1200, 400, 1, 1, 0, 0, 1190, 564, 1190 / 2, 564 / 2, 0, 1, 1, 1, 1);
 
     if (curScene == 9 && isOk) {
         static int timer = 0;
