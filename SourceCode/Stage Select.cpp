@@ -2,6 +2,7 @@ int state_ss;
 int timer_ss;
 #include "Stage Select.h"
 std::unique_ptr<GameLib::Sprite>sprTest;
+extern int cur_stage_level;
 bool CursorSelect(VECTOR2 cPos, SEL_ELEM* obj)
 {
     //VECTOR2 temp{};
@@ -73,6 +74,7 @@ void stSel_Update()
             a.Update();
         ++timer_ss;
         for (int i = 0; i < SIZEOF_ARRAY(test); i++) {
+            if (i > cur_stage_level) break;
             if (CursorSelect(VECTOR2{ (float)GameLib::input::getCursorPosX(), (float)GameLib::input::getCursorPosY() }, &test[i]) && (GameLib::input::TRG_RELEASE(0) & GameLib::input::PAD_START)) {
                 nextScene = (i + 2);
                 break;
@@ -81,11 +83,12 @@ void stSel_Update()
     }
 }
 
-void stSel_Render()
-{
+void stSel_Render() {
     GameLib::clear({ 1, 1, 1, 1 });
-    for (auto& a : test)
-        a.Draw();
+    for (int i = 0; i < SIZEOF_ARRAY(test); i++) {
+        if (i > cur_stage_level) break;
+        test[i].Draw();
+    }
 
 }
 

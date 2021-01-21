@@ -10,6 +10,9 @@ int t_state, t_timer;
 bool Clear{};
 extern int curScene;
 extern bool isPause;
+
+int cur_stage_level = 0;
+
 void test_init()
 {
 
@@ -24,6 +27,10 @@ void test_update()
     switch (t_state)
     {
     case 0:
+
+        if (curScene - 2 > cur_stage_level)
+            cur_stage_level = curScene - 2;
+
         if (Transition::Instance()->state) {
             Transition::Instance()->Update();
             return;
@@ -32,6 +39,7 @@ void test_update()
         // nothing
     case 1:
         UI_GP_Manage::GetInstance()->Init();
+
 
         map_init(GETFOLDERNAME((curScene - 1)));
         player_init(GETFOLDERNAME((curScene - 1)));
