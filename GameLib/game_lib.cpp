@@ -43,6 +43,7 @@
 //void mouseLButtonUp(WPARAM wParam, LPARAM lParam);
 //void mouseRButtonUp(WPARAM wParam, LPARAM lParam);
 
+HWND _hwnd;
 namespace GameLib
 {
 
@@ -622,6 +623,7 @@ namespace GameLib
     //--------------------------------------------------------------
     //  ウインドウプロシージャ
     //--------------------------------------------------------------
+
     LRESULT CALLBACK fnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
         using DirectX::Keyboard;
@@ -637,6 +639,7 @@ namespace GameLib
 
         case WM_PAINT:
         {
+            _hwnd = hwnd;
             PAINTSTRUCT ps;
             HDC hdc;
             hdc = BeginPaint(hwnd, &ps);

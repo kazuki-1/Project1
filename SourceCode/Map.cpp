@@ -457,7 +457,7 @@ void Tutorial(SCENES s)
     case SCENES::STAGE5:
     {
         if (player.pos.x > 900 && player.pos.x < 1400 && player.pos.y > 200 && player.pos.y < 300)
-            font::textOut(1, "PRESS N TO CHANGE DIRECTION OF FAN", { 700, 100 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+            font::textOut(1, "PRESS N TO CHANGE DIRECTION OF FAN", { 700, 100 }, { 0.8, 0.8 }, { 1, 1, 1, 1 });
         break;
     }
     case SCENES::STAGE6:

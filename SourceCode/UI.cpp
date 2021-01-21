@@ -1,6 +1,7 @@
 #include "UI.h"
 
 bool isPause;
+extern HWND _hwnd;
 
 void UI_BTN::SetClickEvent(onClickEvent _event) {
 	_onClickEvent = _event;
@@ -45,6 +46,7 @@ void UI_GP_Manage::Init() {
 	std::shared_ptr<Sprite> title_ui	(sprite_load(L"./Data/Images/TITLE_BTN.png"));
 	std::shared_ptr<Sprite> stage_ui	(sprite_load(L"./Data/Images/STAGE_BTN.png"));
 	std::shared_ptr<Sprite> reset_ui	(sprite_load(L"./Data/Images/RESET_BTN.png"));
+	std::shared_ptr<Sprite> exit_ui		(sprite_load(L"./Data/Images/END_BTN.png"));
 
 	buttons.insert({ "PAUSE_BTN", UI_BTN({ 1750, 125 }, { 0.6f, 0.6f }, { 256, 256 }, gear_ui, [] {
 		isPause = !isPause;
@@ -68,9 +70,14 @@ void UI_GP_Manage::Init() {
 		isPause = false;
 	}) });
 
+	buttons.insert({ "EXITTUI", UI_BTN({ SCREEN_W / 2, SCREEN_H / 2 + 200}, { 0.6f, 0.6f }, { 761, 154 }, exit_ui, [] {
+		PostMessage(_hwnd, WM_CLOSE, 0, 0);
+	}) });
+
 	buttons["TITLE_BTN"].isActive = false;
 	buttons["RESET_BTN"].isActive = false;
 	buttons["STAGE_BTN"].isActive = false;
+	buttons["EXITTUI"].isActive = false;
 }
 
 void UI_GP_Manage::Update() {
@@ -81,6 +88,7 @@ void UI_GP_Manage::Update() {
 	buttons["TITLE_BTN"].isActive = isPause;
 	buttons["RESET_BTN"].isActive = isPause;
 	buttons["STAGE_BTN"].isActive = isPause;
+	buttons["EXITTUI"].isActive = isPause;
 }
 
 void UI_GP_Manage::Render() {
