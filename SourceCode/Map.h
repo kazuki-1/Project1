@@ -97,6 +97,7 @@ public:
     bool AlwaysOn{};
     Fan(int a, int b, Direction c, bool on, bool alwayson) : x(a), y(b), dir(c) , On(on), AlwaysOn(alwayson){}
     Fan(int a, int b, Direction c) : x(a), y(b), dir(c) {}
+    bool isFloat = false;
     void Draw()
     {
         int _dir = dir;

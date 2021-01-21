@@ -50,7 +50,8 @@ void Wind_Effect::Update() {
 			}
 		}
 		for (auto& it : fans) {
-			if (WindCollisionCheck(eff.position, { it.x * 1.0f, it.y * 1.0f })) {
+			VECTOR2 dif = eff.position - it.pos;
+			if (abs(dif.x) <= 10 && abs(dif.y) <= 10) {
 				eff.alpha *= 0.25f;
 			}
 		}

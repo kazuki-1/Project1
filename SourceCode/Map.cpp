@@ -123,6 +123,7 @@ void WindMap::FanCollision()
     Fan* f{ nullptr };
     for (int alpha = 0; alpha < fans.size(); ++alpha)
     {
+        if (fans[alpha].isFloat) return;
         VECTOR2 p_tl{ player.pos.x - player.pivot.x - 5, player.pos.y - player.pivot.y };
         VECTOR2 p_br{ player.pos.x + player.pivot.x + 5, player.pos.y };
         VECTOR2 f_tl{ fans[alpha].x * 54.0f - 27.0f, fans[alpha].y * 54.0f - 27.0f };
@@ -368,16 +369,23 @@ void map_update()
         {
             if (&a == &fans[alpha])
                 continue;
-            if (a.y == fans[alpha].y + 1 && a.x == fans[alpha].x)
+            if (a.y == fans[alpha].y + 1 && abs(a.pos.x - fans[alpha].pos.x) <= 54)
             {
+                fans[alpha].pos.y = roundf(fans[alpha].pos.y / 54) * 54;
+                fans[alpha].isFloat = false;
                 Bottom = true;
                 break;
             }
         }
         if (Bottom)
             continue;
-        if (!Collision.getChip(fans[alpha].pos + VECTOR2(0, 54)))
+        if (!Collision.getChip(fans[alpha].pos + VECTOR2(0, 54))) {
             fans[alpha].pos.y += 5.0f;
+            fans[alpha].isFloat = true;
+        } else {
+            fans[alpha].pos.y = roundf(fans[alpha].pos.y / 54) * 54;
+            fans[alpha].isFloat = false;
+        }
     }
     WindM.Update();
     wind_update();
