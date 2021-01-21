@@ -190,10 +190,12 @@ void wind_update()
     {
         if (!fans[alpha].On)
         {
-            if (!fans[alpha].AlwaysOn)
+            if (!fans[alpha].AlwaysOn) {
                 continue;
+            }
             //continue;
         }
+        fans[alpha].timer++;
         int distance{};
         for (int beta = 0; beta < fans.size(); ++beta)
         {

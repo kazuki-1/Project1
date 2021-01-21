@@ -106,8 +106,11 @@ public:
         else if (_dir == LEFT) _dir = 136;
         else if (_dir == BLOCK) _dir = 128;
 
-        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (_dir % 14) * 54, _dir / 14 * 54, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
+        int add_ty = ((timer / 4) % 3) * 54;
+
+        GameLib::sprite_render(spr.get(), pos.x, pos.y, 1, 1, (_dir % 14) * 54, (_dir / 14 * 54) + add_ty, 54, 54, 27, 27, 0.0f, 1, 1, 1, 1);
     }
+    int timer = 0;
 };
 void map_init(std::string map_name);
 void map_update();
