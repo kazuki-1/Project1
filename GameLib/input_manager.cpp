@@ -239,9 +239,15 @@ namespace GameLib
             p->repeat |= p->trigger;					// 本来のトリガー入力も設定する
         }
 
+        RECT ClientRect;
+        GetClientRect(hwnd, &ClientRect);
+
         // マウス座標の取得
         GetCursorPos(&mousePos);
         ScreenToClient(hwnd, &mousePos);
+
+        mousePos.x = mousePos.x * (1920 * 1.0f / ClientRect.right);
+        mousePos.y = mousePos.y * (940 * 1.0f / ClientRect.bottom);
     }
 
     //--------------------------------------------------------------

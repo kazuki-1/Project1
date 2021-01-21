@@ -4,6 +4,7 @@ int timer_ss;
 std::shared_ptr<GameLib::Sprite>sprTest;
 std::shared_ptr<GameLib::Sprite>sprLock;
 extern int cur_stage_level;
+extern std::unique_ptr<GameLib::Sprite>sprBG1;
 bool CursorSelect(VECTOR2 cPos, SEL_ELEM* obj)
 {
     //VECTOR2 temp{};
@@ -85,6 +86,7 @@ void stSel_Update()
 
 void stSel_Render() {
     GameLib::clear({ 1, 1, 1, 1 });
+    GameLib::sprite_render(sprBG1.get(), 0, 0, 1, 1, 0, 0, 1980, 1080, 0, 0, 0, 1, 1, 1, 1);
     for (int i = 0; i < 8; i++) {
         test[i].alpha = 1.0f;
         if (i > cur_stage_level) {

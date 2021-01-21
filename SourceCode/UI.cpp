@@ -15,8 +15,8 @@ void UI_BTN::Update() {
 
 
 
-	debug::setString("%f", cursor_pos.y);
-	debug::setString("%f", position.y);
+	//debug::setString("%f", cursor_pos.y);
+	//debug::setString("%f", position.y);
 
 	if (std::abs(dif_pos.x) <= size.x * 0.5f * scale.x && std::abs(dif_pos.y) <= size.y * 0.5f * scale.y) {
 		if (TRG_RELEASE(0) & PAD_START) {

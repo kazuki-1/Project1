@@ -90,7 +90,7 @@ void CheckSwitchCollision(Switch_Manage* switch_manage) {
 bool isJump = false;
 void Player::Update()
 {
-    debug::setString("%d", onGround);
+    //debug::setString("%d", onGround);
     speed.x = {};
     const VECTOR2 tpos{ pos };
     if (pushedFan && (TRG(0) & PAD_TRG1))
@@ -192,7 +192,7 @@ void Player::Update()
 
         bool isignore = false;
         bool hasFloor = true;
-        debug::setString("fan : %d", pushedFan->x);
+        //debug::setString("fan : %d", pushedFan->x);
         for (int alpha = 0; alpha < fans.size(); ++alpha)
         {
             if (pushedFan == &fans[alpha])
@@ -279,7 +279,7 @@ void player_init(std::string map_name)
 void player_render()
 {
     player.Draw();
-    GameLib::primitive::circle(player.pos, 10.0f, { 1, 1 }, 0.0f, { 1, 0, 0, 1 });
+    //GameLib::primitive::circle(player.pos, 10.0f, { 1, 1 }, 0.0f, { 1, 0, 0, 1 });
 }
 
 void player_update()

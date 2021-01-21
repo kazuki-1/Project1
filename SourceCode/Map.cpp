@@ -433,7 +433,7 @@ void Tutorial(SCENES s)
     case SCENES::STAGE1:
     {
         if (player.pos.x > 250 && player.pos.x < 350)
-            font::textOut(1, "SPACE : JUMP", { 150, 600 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
+            font::textOut(1, "SPACE : JUMP", { 150, 700 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
         if (player.pos.x > 600 & player.pos.x < 700)
             font::textOut(1, "RIDE THE WIND", { 500, 600 }, { 0.5, 0.5 }, { 1, 1, 1, 1 });
         break;
